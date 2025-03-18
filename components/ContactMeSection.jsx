@@ -23,7 +23,7 @@ const ContactMeSection = () => {
                 </h2>
             </div>
 
-            <section className="relative  max-w-[90rem] mx-auto mt-10 flex flex-col md:flex-row items-center justify-between gap-x-10 pb-4">
+            <section className="relative  max-w-[90rem] mx-auto mt-10 flex flex-col md:flex-row items-center justify-between gap-10 pb-4">
                 <motion.div
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}

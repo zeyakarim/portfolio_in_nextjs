@@ -66,6 +66,6 @@ export const experiences = [
             "Assisted in training drills, ensuring students gained hands-on experience with real-world coding problems.",
             "Provided guidance on project development, helping students structure and optimize their software applications."
         ],
-        color: "bg-red-500",
+        color: "bg-[#ce4949]",
     }
 ];
