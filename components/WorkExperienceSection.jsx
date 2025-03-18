@@ -47,7 +47,8 @@ const WorkExperience = () => {
                             {/* Middle - Timeline Dot */}
                             <div className="hidden md:flex justify-center relative">
                                 <div
-                                    className={`z-10 w-8 h-8 rounded-full ${exp.color} border-4 border-white shadow-lg transition-all duration-300 ease-in-out hover:scale-125 hover:border-gray-500`}
+                                    style={{ backgroundColor: exp.color }}
+                                    className={`z-10 w-8 h-8 rounded-full border-4 border-white shadow-lg transition-all duration-300 ease-in-out hover:scale-125 hover:border-gray-500`}
                                 ></div>
                             </div>
 

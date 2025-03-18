@@ -53,7 +53,7 @@ export const experiences = [
             'Over 2.5 years of hands-on experience building high-performance e-commerce platforms, focusing on seamless user experiences and optimized backend solutions.',
             'Proficient in HTML5, CSS3, MVC architecture, and full-stack MERN development, ensuring clean, maintainable, and efficient code for web applications.'
         ],
-        color: "bg-teal-600",
+        color: "#0d9488",
     },
     {
         company: " Coding Ninjas",
@@ -66,6 +66,6 @@ export const experiences = [
             "Assisted in training drills, ensuring students gained hands-on experience with real-world coding problems.",
             "Provided guidance on project development, helping students structure and optimize their software applications."
         ],
-        color: "bg-[#ce4949]",
+        color: "#EF4444",
     }
 ];
