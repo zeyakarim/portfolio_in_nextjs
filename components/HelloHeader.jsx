@@ -10,7 +10,7 @@ const HelloHeader = () => {
             transition={{ duration: 1 }}
             className="flex-1 text-left"
         >
-            <h2 className="text-6xl md:text-6xl font-bold text-[#0D2F3F] leading-tight flex flex-col">
+            {/* <h2 className="text-6xl md:text-6xl font-bold text-[#0D2F3F] leading-tight flex flex-col">
                 <span className="block mb-2">Hello! I'm</span>
                 <span className="text-teal-600 relative inline-block">
                     <Typewriter
@@ -19,6 +19,19 @@ const HelloHeader = () => {
                         cursor={false}
                         typeSpeed={100}
                         delaySpeed={500}
+                    />
+                </span>
+            </h2> */}
+            <h2 className="text-6xl md:text-6xl font-bold text-[#0D2F3F] leading-tight flex flex-col">
+                <span className="block mb-2">Hello! I'm</span>
+                <span className="text-teal-600 relative inline-block">
+                    <Typewriter
+                        words={["Zeya Karim"]}
+                        loop={0}  // Infinite loop
+                        cursor
+                        typeSpeed={100}
+                        deleteSpeed={50}
+                        delaySpeed={1000}
                     />
                 </span>
             </h2>
@@ -82,4 +95,4 @@ const HelloHeader = () => {
     )
 }
 
-export default HelloHeader
+export default HelloHeader;
