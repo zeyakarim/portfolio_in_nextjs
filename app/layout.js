@@ -9,6 +9,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/zk.png" className="rounded-full" />
+      </head>
       <body className="bg-[#F9F9F9] text-gray-900">
         {children}
         <Analytics />
