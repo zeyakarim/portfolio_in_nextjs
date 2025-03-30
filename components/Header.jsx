@@ -1,26 +1,60 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import Navbar from "./NavSection";
-import Experience from "./Experience";
-import HelloHeader from "./HelloHeader";
-import HeaderImage from "./HeaderImage";
+import HelloExperience from "./HelloHeader";
 
 const Header = () => {
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.playbackRate = 0.75; // Adjust video speed
+        }
+    }, []);
+
     return (
-        <div className="w-full bg-[#F8F7F1]">
+        <div className="relative w-full h-screen bg-[#F5EFE6] flex flex-col overflow-hidden">
+            {/* Navbar */}
             <Navbar />
 
-            {/* Email, Image, and Experience in One Row */}
-            <section className="w-full flex flex-col md:flex-row items-center justify-between max-w-[90rem] mx-auto px-6 mt-10 gap-x-10">
-                {/* Left - Email & Heading */}
-                <HelloHeader />
-
-                {/* Center - Image with Brush Stroke */}
-                <HeaderImage />
-
-                {/* Right - Experience */}
-                <Experience />
+            {/* Content Section */}
+            <section className="w-full flex flex-col items-center text-center px-6 max-w-[90rem] mx-auto md:my-auto z-10 md:items-start md:text-left md:px-0">
+                <HelloExperience />
             </section>
+
+            {/* Zoomed-In Video on Mobile (With Space from Top & Bottom) */}
+            <motion.video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-[50vh] object-cover object-right scale-150 mt-6 mb-6 md:hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+            >
+                <source src="/teaser.webm" type="video/webm" />
+                Your browser does not support the video tag.
+            </motion.video>
+
+            {/* Background Video for Desktop */}
+            <motion.video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="hidden md:block absolute top-0 left-0 w-full h-full object-cover"
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.05, x: 5, y: 5 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+            >
+                <source src="/teaser.webm" type="video/webm" />
+                Your browser does not support the video tag.
+            </motion.video>
         </div>
     );
 };
