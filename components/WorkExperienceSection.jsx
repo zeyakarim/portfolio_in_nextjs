@@ -4,80 +4,168 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { experiences } from "../data/datas";
 
-const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
 const WorkExperience = () => {
     return (
         <motion.section
-            variants={sectionVariants}
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.2 }}
-            className="w-full px-6 mt-10 bg-[#F8F7F1] py-4"
+            className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-b from-[#F8F7F1] to-white/50"
+            id="experience"
         >
-            <div id="experience">
-                {/* Header */}
-                <div className="flex flex-row items-center justify-center text-center gap-4">
-                    <Image
-                        src="/work-experience-icon.png"
-                        alt="work-experience"
-                        width={60}
-                        height={60}
-                        className="rounded-lg object-cover h-auto z-20"
-                    />
-                    <h2 className="text-5xl font-bold text-[#0D2F3F]" style={{ textShadow: "4px 4px 8px rgba(0, 0, 0, 0.2)" }}>Work <span className="text-teal-600">E</span>xperience</h2>
-                </div>
-
+            {/* Header Section */}
+            <div className="max-w-7xl mx-auto mb-20">
+                <motion.div 
+                    className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    viewport={{ once: true }}
+                >
+                    <motion.div
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="relative w-20 h-20"
+                    >
+                        <Image
+                            src="/work-experience-icon.png"
+                            alt="work-experience"
+                            fill
+                            className="object-contain drop-shadow-xl"
+                        />
+                    </motion.div>
+                    <h2 className="text-4xl md:text-5xl font-bold text-[#0D2F3F] text-center relative">
+                        <span className="relative z-10">
+                            Work <span className="text-teal-600">Experience</span>
+                        </span>
+                        <motion.span 
+                            className="absolute -bottom-2 left-0 w-full h-2 bg-teal-400/30 rounded-full"
+                            initial={{ scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            viewport={{ once: true }}
+                        />
+                    </h2>
+                </motion.div>
 
                 {/* Timeline Section */}
-                <section className="mt-10 relative max-w-[90rem] mx-auto">
-                    {/* Center vertical dashed line */}
-                    <div className="absolute mt-10 top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-[2px] border-l-2 border-dashed border-gray-400 hidden md:block z-[1]"></div>
+                <div className="relative max-w-6xl mx-auto">
+                    {/* Animated line - left on mobile, center on desktop */}
+                    <motion.div 
+                        className="absolute top-0 bottom-0 left-4 md:left-1/2 transform md:-translate-x-1/2 w-0.5 sm:w-1"
+                        initial={{ height: 0 }}
+                        whileInView={{ height: "100%" }}
+                        transition={{ duration: 1.5 }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-b from-teal-400 via-teal-500 to-teal-600 rounded-full" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
+                    </motion.div>
 
                     {/* Experience Items */}
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col gap-16 pl-10 md:pl-0">
                         {experiences.map((exp, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: index * 0.3 }}
-                                className="relative grid md:grid-cols-3 gap-6 items-start"
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                className="relative"
                             >
-                                {/* Left Side - Company & Duration */}
-                                <div className="text-right pr-6">
-                                    <a href={exp?.link} target="_blank" rel="noopener noreferrer">
-                                        <h3 className="text-xl font-semibold text-[#0D2F3F] hover:text-teal-600">{exp.company}</h3>
-                                    </a>
-                                    <p className="text-[#0D2F3F] text-justify">{exp.companyDescription}</p>
-                                    <p className="text-[#0D2F3F]">{exp.duration}</p>
-                                </div>
-
-                                {/* Middle - Timeline Dot */}
-                                <div className="hidden md:flex justify-center relative">
-                                    <div
+                                {/* Timeline Dot - Left on mobile, center on desktop */}
+                                <div className="absolute -left-10 md:left-1/2 md:-translate-x-1/2 top-6 flex justify-center h-full">
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        whileInView={{ scale: 1 }}
+                                        transition={{ type: "spring", delay: index * 0.1 + 0.3 }}
+                                        viewport={{ once: true }}
                                         style={{ backgroundColor: exp.color }}
-                                        className={`z-10 w-8 h-8 rounded-full border-4 border-white shadow-lg transition-all duration-300 ease-in-out hover:scale-125 hover:border-gray-500`}
-                                    ></div>
+                                        className="z-10 w-5 h-5 md:w-7 md:h-7 rounded-full border-[3px] border-white shadow-lg transition-all duration-300 ease-in-out group-hover:scale-125 group-hover:shadow-teal-200/50"
+                                    >
+                                        <div className="absolute inset-0 rounded-full bg-white/30 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    </motion.div>
                                 </div>
 
-                                {/* Right Side - Role & Description */}
-                                <div className="text-left pl-6">
-                                    <h4 className="text-lg font-semibold text-[#0D2F3F]">{exp.role}</h4>
-                                    <ul className="list-disc list-inside text-gray-600 flex flex-col gap-4 mt-2">
-                                        {exp.descriptions?.map((description, i) => (
-                                            <li key={i}>{description}</li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                {/* Content Container */}
+                                <div className="grid md:grid-cols-10 gap-8">
+                                    {/* Company Card - Full width on mobile, right on desktop */}
+                                    <div className="md:col-span-4 md:order-first">
+                                        <motion.div
+                                            whileHover={{ 
+                                                x: -5,
+                                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                                                borderColor: "#0d9488"
+                                            }}
+                                            className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all relative overflow-hidden group"
+                                        >
+                                            <div className="absolute inset-0 bg-gradient-to-br from-teal-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            
+                                            <a 
+                                                href={exp?.link} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="block relative z-10"
+                                            >
+                                                <h3 className="text-xl font-bold text-[#0D2F3F] hover:text-teal-600 transition-colors mb-3">
+                                                    {exp.company}
+                                                </h3>
+                                            </a>
+                                            <p className="text-gray-600 text-sm mb-4 relative z-10">
+                                                {exp.companyDescription}
+                                            </p>
+                                            <div className="inline-flex items-center px-4 py-2 bg-teal-100/70 rounded-full border border-teal-200 relative z-10 group-hover:bg-teal-100 transition-colors">
+                                                <span className="text-sm font-medium text-teal-800">
+                                                    {exp.duration}
+                                                </span>
+                                            </div>
+                                        </motion.div>
+                                    </div>
 
+                                    {/* Spacer for desktop layout */}
+                                    <div className="hidden md:block md:col-span-2"></div>
+
+                                    {/* Role Card - Full width on mobile, left on desktop */}
+                                    <div className="md:col-span-4">
+                                        <motion.div
+                                            initial={{ x: 20 }}
+                                            whileInView={{ x: 0 }}
+                                            whileHover={{ 
+                                                x: 5,
+                                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                                                borderColor: "#0d9488"
+                                            }}
+                                            transition={{ delay: index * 0.1 + 0.2 }}
+                                            viewport={{ once: true }}
+                                            className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all relative overflow-hidden group"
+                                        >
+                                            <div className="absolute inset-0 bg-gradient-to-br from-teal-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            
+                                            <h4 className="text-lg font-bold text-[#0D2F3F] mb-4 pb-2 border-b border-gray-100 relative z-10">
+                                                {exp.role}
+                                            </h4>
+                                            <ul className="space-y-4 relative z-10">
+                                                {exp.descriptions?.map((description, i) => (
+                                                    <motion.li 
+                                                        key={i}
+                                                        initial={{ opacity: 0, x: 10 }}
+                                                        whileInView={{ opacity: 1, x: 0 }}
+                                                        transition={{ delay: index * 0.1 + i * 0.1 + 0.4 }}
+                                                        viewport={{ once: true }}
+                                                        className="relative pl-6 text-gray-600 before:absolute before:left-0 before:top-2 before:w-2 before:h-2 before:rounded-full before:bg-teal-500 before:shadow-sm group-hover:before:bg-teal-600 transition-colors"
+                                                    >
+                                                        {description}
+                                                    </motion.li>
+                                                ))}
+                                            </ul>
+                                        </motion.div>
+                                    </div>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
-                </section>
+                </div>
             </div>
         </motion.section>
     );
