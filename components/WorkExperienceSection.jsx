@@ -11,7 +11,7 @@ const WorkExperience = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.2 }}
-            className="w-full px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-b from-[#F8F7F1] to-white/50"
+            className="w-full px-4 sm:px-6 lg:px-8 pt-20 bg-[#F8F7F1]"
             id="experience"
         >
             {/* Header Section */}

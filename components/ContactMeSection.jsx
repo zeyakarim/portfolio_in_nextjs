@@ -1,8 +1,7 @@
-
 'use client'
 import React from 'react';
 import { motion } from "framer-motion";
-import { FaLocationDot } from 'react-icons/fa6';
+import { FaLocationDot, FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
 import { FaPhoneVolume } from 'react-icons/fa';
 import Image from 'next/image';
@@ -19,61 +18,110 @@ const ContactMeSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="w-full px-6 mt-10 bg-[#F8F7F1] py-4"
+            className="w-full px-6 py-16 bg-[#F8F7F1]"
+            id="contact"
         >
-            <div id="contact">
-                <div className="flex flex-row items-center justify-center text-center gap-4">
-                    <Image
-                        src="/contact-me.png"
-                        alt="Contact Me"
-                        width={60}
-                        height={60}
-                        className="rounded-lg object-cover h-auto z-20"
-                    />
-                    <h2 className="text-5xl font-bold text-[#0D2F3F] leading-tight text-center" style={{ textShadow: "4px 4px 8px rgba(0, 0, 0, 0.2)" }}>
-                        Contact <span className="text-teal-600">Me</span>
-                    </h2>
+            <div className="max-w-7xl mx-auto">
+                {/* Header Section */}
+                <div className="flex flex-col items-center mb-16">
+                    <div className="flex items-center gap-4 mb-6">
+                        <Image
+                            src="/contact-me.png"
+                            alt="Contact Me"
+                            width={60}
+                            height={60}
+                            className="rounded-lg object-cover"
+                        />
+                        <h2 className="text-4xl md:text-5xl font-bold text-[#0D2F3F]">
+                            Contact <span className="text-teal-600">Me</span>
+                        </h2>
+                    </div>
+                    <div className="w-24 h-1 bg-teal-600 rounded-full"></div>
                 </div>
 
-                <section className="relative  max-w-[90rem] mx-auto mt-10 flex flex-col md:flex-row items-center justify-between gap-10 pb-4">
+                {/* Content Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    {/* Left Column */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1 }}
-                        className="flex-1 text-left"
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="space-y-8"
                     >
-                        <h3 className="text-5xl font-bold text-[#0D2F3F] leading-tight">
-                            Let's make something amazing together.
+                        <h3 className="text-3xl md:text-4xl font-bold text-[#0D2F3F] leading-tight">
+                            Let's create something <span className="text-teal-600">amazing</span> together.
                         </h3>
-                        <p className="text-2xl font-bold text-[#0D2F3F] leading-tight mt-10">
-                            Start by <span className="text-[#DA634A] border-b-2 border-[#DA634A]">Saying hi</span>
+                        
+                        <p className="text-xl text-[#0D2F3F] opacity-90">
+                            Have a project in mind or want to discuss opportunities? I'd love to hear from you!
                         </p>
 
+                        <div className="mt-10">
+                            <button className="px-8 py-3 bg-[#DA634A] text-white rounded-lg font-medium hover:bg-[#c45a43] transition-all duration-300 flex items-center gap-2">
+                                <MdEmail size={20} />
+                                Say Hello
+                            </button>
+                        </div>
                     </motion.div>
 
+                    {/* Right Column */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1 }}
-                        className="flex-1 flex flex-col items-end gap-4"
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="space-y-8"
                     >
-                        <h6 className='text-1xl font-bold text-[#0D2F3F] leading-tight'>Information</h6>
-                        <div className='flex flex-row gap-3 mt-5'>
-                            <FaLocationDot size={18}/>
-                            <p className='text-[#0D2F3F] leading-tight'>Bihar Sharif, Bihar, India</p>
+                        <h6 className='text-xl font-semibold text-[#0D2F3F]'>Contact Information</h6>
+                        
+                        <div className="space-y-6">
+                            <div className='flex items-start gap-4'>
+                                <div className="mt-1 text-[#0D2F3F]">
+                                    <FaLocationDot size={18}/>
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-[#0D2F3F]">Location</h4>
+                                    <p className='text-[#0D2F3F] opacity-90'>Bihar Sharif, Bihar, India</p>
+                                </div>
+                            </div>
+
+                            <div className='flex items-start gap-4'>
+                                <div className="mt-1 text-[#0D2F3F]">
+                                    <MdEmail size={18} />
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-[#0D2F3F]">Email</h4>
+                                    <p className='text-[#0D2F3F] opacity-90'>zeyakarim79@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div className='flex items-start gap-4'>
+                                <div className="mt-1 text-[#0D2F3F]">
+                                    <FaPhoneVolume size={18} />
+                                </div>
+                                <div>
+                                    <h4 className="font-medium text-[#0D2F3F]">Phone</h4>
+                                    <p className='text-[#0D2F3F] opacity-90'>+91 8570877219</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className='flex flex-row gap-3'>
-                            <MdEmail size={18} />
-                            <p className='text-[#0D2F3F] leading-tight'>zeyakarim79@gmail.com</p>
-                        </div>
-
-                        <div className='flex flex-row gap-3'>
-                            <FaPhoneVolume size={18} />
-                            <p className='text-[#0D2F3F] leading-tight'>+918570877219</p>
+                        {/* Social Links */}
+                        <div className="pt-4">
+                            <h6 className="text-lg font-medium text-[#0D2F3F] mb-4">Follow Me</h6>
+                            <div className="flex gap-4">
+                                <a href="#" className="text-[#0D2F3F] hover:text-teal-600 transition-colors">
+                                    <FaGithub size={22} />
+                                </a>
+                                <a href="#" className="text-[#0D2F3F] hover:text-teal-600 transition-colors">
+                                    <FaLinkedin size={22} />
+                                </a>
+                                <a href="#" className="text-[#0D2F3F] hover:text-teal-600 transition-colors">
+                                    <FaTwitter size={22} />
+                                </a>
+                            </div>
                         </div>
                     </motion.div>
-                </section>
+                </div>
             </div>
         </motion.section>
     )
