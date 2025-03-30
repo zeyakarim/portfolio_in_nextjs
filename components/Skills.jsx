@@ -1,4 +1,6 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -6,92 +8,218 @@ const skillsContainer = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
-        transition: { staggerChildren: 0.15 }, // Better delay effect
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.3
+        },
     },
 };
 
 const skillItem = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    show: { 
+        opacity: 1, 
+        y: 0, 
+        transition: { 
+            type: "spring",
+            damping: 10,
+            stiffness: 100
+        } 
+    },
 };
 
 export default function Skills({ skills }) {
     const [selectedSkill, setSelectedSkill] = useState(null);
 
     return (
-        <>
-            <motion.section
+        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <motion.div
                 variants={skillsContainer}
                 initial="hidden"
-                animate="show"
-                className="mt-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-8 place-items-center"
+                whileInView="show"
+                viewport={{ once: true, margin: "-100px" }}
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"
             >
                 {skills.map((skill) => (
                     <motion.div 
                         key={skill.name} 
-                        variants={skillItem} 
-                        className="flex flex-col items-center group cursor-pointer"
-                        onClick={() => setSelectedSkill(skill)}
+                        variants={skillItem}
+                        className="flex flex-col items-center"
                     >
-                        {/* Skill Icon with Enhanced Hover & Pulse Effect */}
                         <motion.div 
-                            whileHover={{ scale: 1.2, rotate: 5, boxShadow: "0px 5px 15px rgba(0,0,0,0.2)" }}
-                            whileTap={{ scale: 0.9 }}
-                            className="p-3 rounded-lg bg-white shadow-md transition hover:shadow-xl relative"
+                            whileHover={{ 
+                                scale: 1.1,
+                                y: -5,
+                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)"
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            className="p-4 rounded-xl bg-white shadow-sm border border-gray-100 hover:border-teal-100 transition-all cursor-pointer relative group"
+                            onClick={() => setSelectedSkill(skill)}
                         >
-                            <Image 
-                                src={skill.image} 
-                                alt={skill.name} 
-                                width={70} 
-                                height={70} 
-                                className="rounded-lg object-contain"
-                            />
-
-                            {/* Tooltip on Hover */}
-                            <motion.span 
-                                className="absolute left-1/2 -translate-x-1/2 top-[-12px] 
-                                    bg-teal-600 text-white text-[10px] px-1 py-1 
-                                    rounded opacity-0 group-hover:opacity-100 transition 
-                                    whitespace-nowrap"
+                            <div className="relative w-16 h-16 mx-auto">
+                                <Image 
+                                    src={skill.image} 
+                                    alt={skill.name} 
+                                    fill
+                                    className="object-contain"
+                                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
+                                />
+                            </div>
+                        
+                            <motion.div 
+                                className="absolute -top-2 left-1/2 -translate-x-1/2 bg-teal-600 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+                                initial={{ y: 10 }}
+                                whileHover={{ y: 0 }}
                             >
-                                {skill.description || "Show experience"}
-                            </motion.span>
-
+                                {skill.name}
+                            </motion.div>
                         </motion.div>
 
-                        {/* Skill Name */}
-                        <p className="text-[#0D2F3F] text-lg mt-3 font-medium group-hover:text-teal-600 transition">
+                        <motion.p 
+                            className="text-gray-700 mt-3 font-medium text-center text-sm md:text-base"
+                            whileHover={{ color: "#0d9488" }}
+                        >
                             {skill.name}
-                        </p>
+                        </motion.p>
                     </motion.div>
                 ))}
-            </motion.section>
+            </motion.div>
 
-            {/* Modal for More Skill Info */}
-            {selectedSkill && (
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
-                    onClick={() => setSelectedSkill(null)}
-                >
-                    <motion.div 
-                        className="bg-white p-6 rounded-lg shadow-lg w-80 text-center"
-                        onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside
+            <AnimatePresence>
+                {selectedSkill && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                        onClick={() => setSelectedSkill(null)}
                     >
-                        <Image src={selectedSkill.image} alt={selectedSkill.name} width={80} height={80} />
-                        <h2 className="text-xl font-bold mt-4">{selectedSkill.name}</h2>
-                        <p className="text-gray-600 mt-2">{selectedSkill.experiences || "No additional info available."}</p>
-                        <button 
-                            onClick={() => setSelectedSkill(null)}
-                            className="mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition"
+                        <motion.div
+                            initial={{ scale: 0.95, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.95, y: 20 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-gray-100 dark:border-gray-700"
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            Close
-                        </button>
+                            {/* Header with teal gradient */}
+                            <div className="bg-gradient-to-r from-teal-600 to-teal-500 p-6 text-center relative overflow-hidden">
+                                {/* Subtle noise texture */}
+                                <div className="absolute inset-0 bg-noise opacity-10" />
+                                
+                                <div className="relative z-10">
+                                    <div className="w-20 h-20 mx-auto mb-4 relative">
+                                        <Image 
+                                            src={selectedSkill.image} 
+                                            alt={selectedSkill.name}
+                                            fill
+                                            className="object-contain drop-shadow-lg"
+                                        />
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-white">{selectedSkill.name}</h2>
+                                    
+                                    {/* Proficiency badge with teal variants */}
+                                    <div className={`mt-2 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                                        (selectedSkill.proficiency || 0) >= 80 ? 'bg-teal-700 text-teal-100' :
+                                        (selectedSkill.proficiency || 0) >= 50 ? 'bg-teal-600/90 text-white' :
+                                        'bg-teal-500/80 text-white'
+                                    }`}>
+                                        {selectedSkill.proficiency || 70}% • {
+                                            (selectedSkill.proficiency || 0) >= 80 ? 'Expert' :
+                                            (selectedSkill.proficiency || 0) >= 50 ? 'Proficient' :
+                                            'Developing'
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-6 space-y-6">
+                                {/* Enhanced Proficiency Meter */}
+                                <div>
+                                    <div className="flex justify-between items-center mb-3">
+                                        <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            Skill Mastery
+                                        </h3>
+                                        <span className="text-sm font-medium text-teal-600 dark:text-teal-400">
+                                            {selectedSkill.proficiency || 70}%
+                                        </span>
+                                    </div>
+                                    
+                                    <div className="relative">
+                                    {/* Main progress bar */}
+                                        <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                                            <motion.div 
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${selectedSkill.proficiency || 70}%` }}
+                                                transition={{ duration: 1, type: "spring" }}
+                                                className="h-full rounded-full bg-gradient-to-r from-teal-400 to-teal-500"
+                                            />
+                                        </div>
+                                    
+                                        {/* Experience milestones with teal accent */}
+                                        <div className="flex justify-between mt-3 px-1">
+                                            {[0, 25, 50, 75, 100].map((mark) => (
+                                                <div key={mark} className="flex flex-col items-center">
+                                                    <div className={`w-1.5 h-1.5 rounded-full ${
+                                                        (selectedSkill.proficiency || 0) >= mark ? 
+                                                        'bg-teal-500' : 'bg-gray-300 dark:bg-gray-600'
+                                                    }`} />
+                                                    <span className={`text-[10px] mt-1 ${
+                                                        (selectedSkill.proficiency || 0) >= mark ? 
+                                                        'text-teal-600 dark:text-teal-400 font-medium' : 
+                                                        'text-gray-400'
+                                                    }`}>
+                                                        {mark}%
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Skill Description */}
+                                {/* <div>
+                                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider mb-2">
+                                    Description
+                                    </h3>
+                                    <p className="text-gray-700 dark:text-gray-300">
+                                    {selectedSkill.description || "No description available."}
+                                    </p>
+                                </div> */}
+
+                                {/* Projects/Experience */}
+                                {selectedSkill.experiences && (
+                                    <div>
+                                        <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider mb-2">
+                                            Key Experiences
+                                        </h3>
+                                        <ul className="space-y-2">
+                                            {selectedSkill.experiences.split('\n').map((exp, i) => (
+                                                <li key={i} className="flex items-start">
+                                                    <span className="text-teal-500 flex-shrink-0 mt-1 mr-2">•</span>
+                                                    <span className="text-gray-700 dark:text-gray-300">{exp}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Footer with teal button */}
+                            <div className="px-6 pb-6">
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => setSelectedSkill(null)}
+                                    className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-md"
+                                >
+                                    Close
+                                </motion.button>
+                            </div>
+                        </motion.div>
                     </motion.div>
-                </motion.div>
-            )}
-        </>
+                )}
+            </AnimatePresence>
+        </section>
     );
 }
