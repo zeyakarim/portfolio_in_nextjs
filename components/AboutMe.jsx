@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { FaCode, FaServer, FaShoppingCart, FaBrain } from "react-icons/fa";
 
 const textContent = [
   {
@@ -11,7 +12,8 @@ const textContent = [
       "Full-Stack Software Developer",
       "MERN stack", 
       "e-commerce platforms"
-    ]
+    ],
+    icons: [<FaCode key="code" />, <FaServer key="server" />, <FaShoppingCart key="cart" />]
   },
   {
     text: "Driven by a passion for clean code and continuous learning, I stay up-to-date with the latest technologies to create innovative solutions. I thrive in collaborative environments, where I can contribute my expertise while learning from others. Whether it's developing intuitive front-end interfaces or architecting robust back-end systems, I am always eager to take on new challenges and push the boundaries of what's possible.",
@@ -19,22 +21,30 @@ const textContent = [
       "clean code",
       "front-end interfaces",
       "back-end systems"
-    ]
+    ],
+    icons: [<FaBrain key="brain" />, <FaCode key="frontend" />, <FaServer key="backend" />]
   }
 ];
 
 const HighlightedTypewriter = ({ content, speed = 20, delay = 0 }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const animationRef = useRef(null);
   const currentIndexRef = useRef(0);
+  const [highlightedWords, setHighlightedWords] = useState([]);
 
   useEffect(() => {
+    setIsMounted(true);
+    
     setDisplayedText("");
     currentIndexRef.current = 0;
+    setHighlightedWords([]);
     
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
     }
+
+    if (!isMounted) return;
 
     const startTime = performance.now() + delay;
 
@@ -52,7 +62,13 @@ const HighlightedTypewriter = ({ content, speed = 20, delay = 0 }) => {
 
       if (charsToShow > currentIndexRef.current) {
         currentIndexRef.current = charsToShow;
-        setDisplayedText(content.text.slice(0, charsToShow));
+        const currentText = content.text.slice(0, charsToShow);
+        setDisplayedText(currentText);
+
+        const newHighlights = content.highlights.filter(phrase => 
+          currentText.includes(phrase)
+        );
+        setHighlightedWords(newHighlights);
       }
 
       if (charsToShow < content.text.length) {
@@ -62,16 +78,23 @@ const HighlightedTypewriter = ({ content, speed = 20, delay = 0 }) => {
 
     animationRef.current = requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(animationRef.current);
-  }, [content.text, speed, delay]);
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [content.text, speed, delay, isMounted]);
 
   const renderText = () => {
+    if (!displayedText) return null;
+
     let result = [];
     let lastPos = 0;
 
-    // Find all highlight positions
     const highlights = content.highlights.flatMap(phrase => {
-      const index = content.text.indexOf(phrase, lastPos);
+      if (!highlightedWords.includes(phrase)) return [];
+      
+      const index = displayedText.indexOf(phrase, lastPos);
       if (index !== -1) {
         lastPos = index + phrase.length;
         return { index, phrase };
@@ -81,118 +104,247 @@ const HighlightedTypewriter = ({ content, speed = 20, delay = 0 }) => {
 
     lastPos = 0;
     highlights.forEach(({ index, phrase }) => {
-      // Add normal text before highlight
       if (index > lastPos) {
-        const normalText = content.text.slice(lastPos, index);
-        if (displayedText.length >= index) {
-          result.push(normalText);
-        } else if (displayedText.length > lastPos) {
-          result.push(normalText.slice(0, displayedText.length - lastPos));
-        }
+        const normalText = displayedText.slice(lastPos, index);
+        result.push(normalText);
       }
 
-      // Add highlighted text
       const highlightEnd = index + phrase.length;
-      if (displayedText.length >= highlightEnd) {
-        result.push(
-          <span key={index} className="text-teal-600 font-bold">
-            {phrase}
-          </span>
-        );
-      } else if (displayedText.length > index) {
-        result.push(
-          <span key={index} className="text-teal-600 font-bold">
-            {phrase.slice(0, displayedText.length - index)}
-          </span>
-        );
-      }
+      const phraseIndex = content.highlights.indexOf(phrase);
+      const icon = content.icons[phraseIndex];
+
+      result.push(
+        <motion.span 
+          key={index} 
+          className="relative text-teal-600 font-bold bg-teal-100/50 px-1 py-0.5 rounded"
+          initial={isMounted ? { backgroundColor: 'rgba(13, 148, 136, 0)' } : false}
+          animate={isMounted ? { backgroundColor: 'rgba(13, 148, 136, 0.1)' } : false}
+          transition={{ duration: 0.3 }}
+          whileHover={isMounted ? { 
+            scale: 1.05,
+            backgroundColor: 'rgba(13, 148, 136, 0.2)',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+          } : false}
+        >
+          {phrase}
+          {isMounted && (
+            <span className="absolute -top-3 -right-2 text-xs bg-teal-600 text-white p-1 rounded-full">
+              {icon}
+            </span>
+          )}
+        </motion.span>
+      );
 
       lastPos = highlightEnd;
     });
 
-    // Add remaining normal text
     if (lastPos < displayedText.length) {
-      result.push(content.text.slice(lastPos, displayedText.length));
+      result.push(displayedText.slice(lastPos, displayedText.length));
     }
 
     return result.length ? result : displayedText;
   };
 
   return (
-    <>
+    <div className="relative">
       {renderText()}
-      {currentIndexRef.current < content.text.length && (
-        <span className="animate-blink">|</span>
+      {isMounted && currentIndexRef.current < content.text.length && (
+        <motion.span 
+          className="inline-block w-1 h-6 bg-teal-600 ml-1"
+          animate={{ opacity: [0, 1, 0] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+        />
       )}
-    </>
+    </div>
   );
 };
 
-// AboutMe component remains the same as previous example
-// (Copy the AboutMe component from the previous code snippet)
 const AboutMe = () => {
-    return (
-        <section className="relative mt-10 flex flex-col md:flex-row items-center justify-between gap-10 px-6 md:px-12">
-            {/* Image Section */}
-            <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1 }}
-                className="w-full md:w-1/3 flex justify-center"
-            >
-                <motion.div 
-                    whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.2)" }}
-                    className="rounded-lg overflow-hidden shadow-lg bg-teal-600 p-2"
-                >
-                    <Image
-                        src="/bootcamp.png"
-                        alt="About"
-                        width={300}
-                        height={300}
-                        className="w-full h-[300px] rounded-lg object-cover"
-                    />
-                </motion.div>
-            </motion.div>
+  const [isMounted, setIsMounted] = useState(false);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const [activeTab, setActiveTab] = useState(0);
 
-            {/* Text Section */}
-            <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                viewport={{ once: true, amount: 0.3 }}
-                className="w-full md:w-2/3 text-left md:text-right"
-            >
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 1 }}
-                    className="text-[#0D2F3F] text-lg text-justify leading-relaxed"
-                >
-                    <HighlightedTypewriter 
-                        content={textContent[0]} 
-                        speed={20}
-                        delay={300}
-                    />
-                </motion.div>
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
+  return (
+    <section 
+      ref={ref}
+      className="relative py-20 px-6 md:px-12 bg-gradient-to-br from-white to-gray-50 overflow-hidden"
+      id="about"
+    >
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
+        {isMounted && [...Array(10)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-teal-600"
+            style={{
+              width: Math.random() * 300 + 100,
+              height: Math.random() * 300 + 100,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              x: [0, (Math.random() - 0.5) * 100],
+              y: [0, (Math.random() - 0.5) * 100],
+              opacity: [0.1, 0.2, 0.1],
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="max-w-6xl mx-auto relative">
+        <motion.h2 
+          className="text-4xl md:text-5xl font-bold text-center mb-16 text-[#0D2F3F]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isMounted && isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          About <span className="text-teal-600">Me</span>
+        </motion.h2>
+
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -50, rotate: -5 }}
+            animate={isMounted && isInView ? { opacity: 1, x: 0, rotate: 0 } : {}}
+            transition={{ duration: 0.8, type: "spring" }}
+            className="w-full lg:w-2/5 flex justify-center relative"
+          >
+            <div className="relative">
+              <motion.div 
+                className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white relative z-10"
+                whileHover={isMounted ? { scale: 1.03 } : {}}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <Image
+                  src="/bootcamp.png"
+                  alt="Profile"
+                  width={400}
+                  height={500}
+                  className="w-full h-[400px] object-cover"
+                  priority
+                />
+              </motion.div>
+              
+              {isMounted && (
+                <>
+                  <motion.div 
+                    className="absolute -bottom-6 -left-6 w-32 h-32 bg-teal-600 rounded-lg z-0"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 0.3, scale: 1 } : {}}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                  />
+                  <motion.div 
+                    className="absolute -top-6 -right-6 w-24 h-24 bg-[#0D2F3F] rounded-full z-0"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 0.3, scale: 1 } : {}}
+                    transition={{ delay: 0.6, duration: 0.6 }}
+                  />
+                </>
+              )}
+            </div>
+          </motion.div>
+
+          {isMounted && (
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="w-full lg:w-3/5"
+            >
+              <div className="mb-6 flex border-b border-gray-200">
+                {textContent.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`px-4 py-2 font-medium relative ${activeTab === index ? 'text-teal-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    onClick={() => setActiveTab(index)}
+                  >
+                    {activeTab === index && (
+                      <motion.div 
+                        className="absolute bottom-0 left-0 w-full h-1 bg-teal-600"
+                        layoutId="underline"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    Part {index + 1}
+                  </button>
+                ))}
+              </div>
+
+              <AnimatePresence mode="wait">
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{
-                        delay: 0.3 + (textContent[0].text.length * 0.02) + 0.5,
-                        duration: 1
-                    }}
-                    className="text-[#0D2F3F] text-lg text-justify leading-relaxed mt-4"
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-[#0D2F3F] text-lg leading-relaxed bg-white p-6 rounded-xl shadow-lg"
                 >
-                    <HighlightedTypewriter 
-                        content={textContent[1]} 
-                        speed={20}
-                        delay={800 + (textContent[0].text.length * 0.02) * 1000}
-                    />
+                  <HighlightedTypewriter 
+                    content={textContent[activeTab]} 
+                    speed={15}
+                    delay={activeTab === 0 ? 300 : 100}
+                  />
+                  
+                  {activeTab === 0 && (
+                    <motion.div 
+                      className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: (textContent[0].text.length * 0.015) + 0.5 }}
+                    >
+                      {['React', 'Node.js', 'MongoDB', 'PostGre', 'Express', 'Next.js'].map((tech, i) => (
+                        <motion.div
+                          key={tech}
+                          className="bg-teal-50 border border-teal-100 rounded-lg px-3 py-2 text-sm font-medium text-teal-800 flex items-center gap-2"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.7 + i * 0.1 }}
+                          whileHover={isMounted ? { scale: 1.05 } : {}}
+                        >
+                          <div className="w-2 h-2 bg-teal-600 rounded-full" />
+                          {tech}
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
                 </motion.div>
+              </AnimatePresence>
+
+              {/* <motion.div 
+                className="flex justify-end mt-6 gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+              >
+                <motion.button
+                  className="px-6 py-2 bg-teal-600 text-white rounded-lg font-medium shadow hover:shadow-md transition-shadow"
+                  whileHover={isMounted ? { y: -2 } : {}}
+                  whileTap={isMounted ? { scale: 0.98 } : {}}
+                >
+                  Download CV
+                </motion.button>
+                <motion.button
+                  className="px-6 py-2 border border-teal-600 text-teal-600 rounded-lg font-medium hover:bg-teal-50 transition-colors"
+                  whileHover={isMounted ? { y: -2 } : {}}
+                  whileTap={isMounted ? { scale: 0.98 } : {}}
+                >
+                  Contact Me
+                </motion.button>
+              </motion.div> */}
             </motion.div>
-        </section>
-    );
+          )}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default AboutMe;

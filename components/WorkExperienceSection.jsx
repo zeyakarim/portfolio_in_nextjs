@@ -17,36 +17,51 @@ const WorkExperience = () => {
             {/* Header Section */}
             <div className="max-w-7xl mx-auto mb-20">
                 <motion.div 
-                    className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12"
+                    className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12 relative"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                     viewport={{ once: true }}
                 >
+                    {/* Compact Icon with subtle animation */}
                     <motion.div
-                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="relative w-20 h-20"
+                        className="relative w-16 h-16"
                     >
                         <Image
                             src="/work-experience-icon.png"
-                            alt="work-experience"
+                            alt="Work Experience"
                             fill
-                            className="object-contain drop-shadow-xl"
+                            className="object-contain drop-shadow-sm"
+                        />
+                        <motion.div 
+                            className="absolute inset-0 rounded-full border border-teal-400/20 pointer-events-none"
+                            animate={{
+                                scale: [1, 1.05, 1],
+                                opacity: [0.5, 0.8, 0.5]
+                            }}
+                            transition={{
+                                duration: 4,
+                                repeat: Infinity
+                            }}
                         />
                     </motion.div>
-                    <h2 className="text-4xl md:text-5xl font-bold text-[#0D2F3F] text-center relative">
-                        <span className="relative z-10">
-                            Work <span className="text-teal-600">Experience</span>
-                        </span>
-                        <motion.span 
-                            className="absolute -bottom-2 left-0 w-full h-2 bg-teal-400/30 rounded-full"
-                            initial={{ scaleX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            viewport={{ once: true }}
-                        />
-                    </h2>
+
+                    {/* Compact Title */}
+                    <div className="relative">
+                        <h2 className="text-3xl md:text-4xl font-bold text-[#0D2F3F] dark:text-white text-center">
+                            Work <span className="text-teal-600 relative inline-block">
+                                Experience
+                                <motion.span 
+                                className="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-400/30 rounded-full"
+                                initial={{ scaleX: 0 }}
+                                whileInView={{ scaleX: 1 }}
+                                transition={{ duration: 0.6 }}
+                                />
+                            </span>
+                        </h2>
+                    </div>
                 </motion.div>
 
                 {/* Timeline Section */}
