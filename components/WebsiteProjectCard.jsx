@@ -1,63 +1,53 @@
 "use client";
 
 import Image from 'next/image';
-import { motion, AnimatePresence } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import { useState, useEffect, useRef } from 'react';
+import { AnimatePresence, motion } from "framer-motion";
+import { FaGithub, FaExternalLinkAlt, FaCode, FaTwitter } from "react-icons/fa";
+import { useEffect, useRef, useState } from 'react';
 
-const WebsiteProjectCard = ({ images, headerTitle, title, githubLink, liveLink }) => {
+const TAG_COLORS = [
+  'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+  'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+  'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200',
+  'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
+];
+
+const WebsiteProjectCard = ({ 
+  images, 
+  title, 
+  githubLink, 
+  liveLink,
+  hasLiveView = true,
+  isCaseStudy = false,
+  tags = ["JavaScript", "HTML", "CSS"],
+  subtitle = "Group management tool"
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
-  const [isHovered, setIsHovered] = useState(false);
+  const [direction, setDirection] = useState(1);
   const intervalRef = useRef(null);
 
-  // Auto-slide every 3 seconds
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 3000);
-
     return () => clearInterval(intervalRef.current);
   }, [images.length]);
-
-  // Pause on hover
-  const handleHoverStart = () => {
-    setIsHovered(true);
-    clearInterval(intervalRef.current);
-  };
-
-  // Resume on hover end
-  const handleHoverEnd = () => {
-    setIsHovered(false);
-    intervalRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
-  };
-
-  // Manual navigation (optional)
-  const goToIndex = (newIndex) => {
-    setDirection(newIndex > currentIndex ? 1 : -1);
-    setCurrentIndex(newIndex);
+    
+  const getTagColor = (index) => {
+    return TAG_COLORS[index % TAG_COLORS.length];
   };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true, amount: 0.2 }}
-      className="relative h-[500px] w-full bg-teal-600 rounded-xl overflow-hidden"
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="w-full max-w-[23rem] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 flex flex-col h-full"
     >
-      {/* Header */}
-      <div className="p-6">
-        <h4 className="text-2xl font-semibold text-white">{headerTitle}</h4>
-        <p className="text-white/90 text-sm mt-1">{title}</p>
-      </div>
-
-      {/* Sliding Images */}
-      <div className="relative h-[70%] w-full overflow-hidden">
+      {/* Image Carousel with increased height */}
+      <div className="relative h-[256px] w-full bg-gray-100 dark:bg-gray-700"> {/* Changed from h-64 to h-80 */}
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
             key={currentIndex}
@@ -66,53 +56,81 @@ const WebsiteProjectCard = ({ images, headerTitle, title, githubLink, liveLink }
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -direction * 100, opacity: 0 }}
             transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute w-full h-full flex items-center justify-center"
           >
             <Image
               src={images[currentIndex].src}
-              alt="Project Image"
-              width={400}
-              height={250}
-              className="rounded-lg object-cover"
-              style={{
-                transform: 'rotate3d(1, 1, 1, -15deg)',
-                boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.2)',
-              }}
+              alt={title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Navigation Dots */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all ${currentIndex === index ? 'bg-white' : 'bg-white/30'}`}
-          />
-        ))}
-      </div>
-
-      {/* Hover Overlay (GitHub/Live Links) */}
-      {isHovered && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="absolute inset-0 bg-black/70 flex items-center justify-center rounded-xl"
-        >
-          <div className="flex gap-6">
-            <a href={githubLink} target="_blank" rel="noopener noreferrer" className="text-white hover:text-teal-400 transition">
-              <FaGithub size={30} />
-            </a>
-            {liveLink && (
-              <a href={liveLink} target="_blank" rel="noopener noreferrer" className="text-white hover:text-teal-400 transition">
-                <FaExternalLinkAlt size={30} />
-              </a>
-            )}
+      {/* Card Content */}
+      <div className="p-5 flex flex-col h-full">
+        <div className="flex-grow">
+          {/* Header */}
+          <div className="mb-3">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
           </div>
-        </motion.div>
-      )}
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1 mb-2">
+            {tags.map((tag, index) => (
+              <motion.span
+                key={index}
+                className={`${getTagColor(index)} px-3 py-1 rounded-full text-xs`}
+                whileHover={{ scale: 1.05 }}
+              >
+                {tag}
+              </motion.span>
+            ))}
+          </div>
+
+          {/* Subtitle */}
+          <p className="text-[#A1A7B2] dark:text-gray-300 text-sm">{subtitle}</p>
+        </div>
+
+        {/* Fixed Bottom Buttons */}
+        <div className="flex justify-end gap-3 pt-4">
+          <motion.a
+            href={githubLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white bg-[#B9BBBE] hover:bg-[#A1A7B2] transition-colors py-2 px-4 rounded-lg flex items-center justify-center"
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaCode size={16} />
+          </motion.a>
+          
+          {(hasLiveView && liveLink) ? (
+            <motion.a
+              href={liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#FF923E] hover:bg-[#e07d2e] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaExternalLinkAlt size={14} />
+              Live View
+            </motion.a>
+          ) : (
+            <motion.p
+              className="bg-[#FF923E] hover:bg-[#e07d2e] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaTwitter size={18} />
+              Stay up to date
+            </motion.p>
+          )}
+        </div>
+      </div>
     </motion.div>
   );
 };

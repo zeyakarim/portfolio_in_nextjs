@@ -25,26 +25,32 @@ const ProjectSection = () => {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[90rem] mx-auto">
-          <WebsiteProjectCard 
+          <ProjectDesignCard 
             images={codielWebsiteImages} 
             headerTitle='Web Design'
             title='School Management Dashboard'
+            subtitle="Managing School Data in One Dashboard"
             githubLink='https://github.com/zeyakarim/school_management_app'
             liveLink='https://school-management-app-eta.vercel.app/'
+            tags={['Next.js', 'Tailwind CSS', 'PostGreDB', 'AWS']}
           />
 
           <ProjectDesignCard 
             images={appImages}
             headerTitle='App Design'
             title='Groceries and essentials online'
+            subtitle="KROZA is a grocery and e-commerce platform"
             githubLink='https://github.com/zeyakarim/kroza_frontend_react_native_app'
+            tags={['React Native', 'Tailwind CSS', 'Node.js','PostGreDB', 'AWS']}
           />
 
-          <WebsiteProjectCard 
+          <ProjectDesignCard  
             images={onlineCheckInWebsiteImages}
             headerTitle='Web Design'
             title='Online Hotel Check-In'
+            subtitle="Digitally Manage Hotel Check In"
             githubLink='https://github.com/zeyakarim/hotel_check_in_online_mode_frontend'
+            tags={['React.js', 'Tailwind CSS', 'Node.js', 'PostGreDB']}
           />
         </div>
       </div>
