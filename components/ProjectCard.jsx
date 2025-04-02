@@ -16,18 +16,18 @@ const TAG_COLORS = [
 
 const ProjectCard = ({ 
   images, 
-  title = "Sharkie",
-  subtitle = "JavaScript based jump-and-run game",
-  tags = ["JavaScript", "HTML", "CSS"],
+  title = "Project Title",
+  subtitle = "Project description",
+  tags = ["Technology"],
   githubLink,
   liveLink
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Pause auto-rotation on hover
+  // Auto-rotation
   useEffect(() => {
     if (isHovered) {
       clearInterval(intervalRef.current);
@@ -47,30 +47,24 @@ const ProjectCard = ({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.2 }}
-      className="relative w-full max-w-[23rem] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg h-full flex flex-col"
-      whileHover={{
-        boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-        border: "1px solid rgba(255, 146, 62, 0.5)",
-        transition: { duration: 0.3 }
+      className="relative w-full max-w-[23rem] bg-white dark:bg-gray-800 rounded-xl overflow-hidden h-full flex flex-col"
+      style={{ 
+        boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 15px 0px, rgba(0, 0, 0, 0.1) 0px 10px 15px 0px",
+        border: "1px solid #0D9488"
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Glow effect */}
-      <motion.div 
-        className="absolute inset-0 rounded-xl pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ 
-          opacity: isHovered ? 1 : 0,
-          boxShadow: "0 0 20px rgba(255, 146, 62, 0.3)"
-        }}
-        transition={{ duration: 0.3 }}
-      />
-
-      {/* Image Carousel */}
+      {/* Enhanced border effect */}
+      <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-[#FF923E]/30 pointer-events-none transition-all duration-300" />
+      
+      {/* Image Container */}
       <div className="relative h-64 w-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+        {/* Subtle overlay for better contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent z-10" />
+
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
             key={currentIndex}
@@ -79,7 +73,7 @@ const ProjectCard = ({
             animate={{ 
               x: 0, 
               opacity: 1,
-              transition: { type: 'spring', damping: 20, stiffness: 100 }
+              transition: { duration: 0.5 }
             }}
             exit={{ 
               x: -direction * 100, 
@@ -92,15 +86,15 @@ const ProjectCard = ({
               src={images[currentIndex].src}
               alt={title}
               fill
-              className="object-cover hover:scale-105 transition-transform duration-500"
+              className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority={currentIndex === 0}
             />
           </motion.div>
         </AnimatePresence>
         
-        {/* Navigation dots */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+        {/* Navigation Dots */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
           {images.map((_, index) => (
             <button
               key={index}
@@ -118,82 +112,62 @@ const ProjectCard = ({
       {/* Project Content */}
       <div className="p-6 flex flex-col flex-1">
         <div className="flex-grow">
-          <motion.h2 
-            className="text-2xl font-bold text-gray-900 dark:text-white mb-3"
-            whileHover={{ color: "#FF923E" }}
-            transition={{ duration: 0.3 }}
-          >
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 hover:text-[#FF923E] transition-colors duration-200">
             {title}
-          </motion.h2>
+          </h2>
           
           <div className="flex flex-wrap gap-2 mb-4">
             {tags.map((tag, index) => (
-              <motion.span
+              <span
                 key={index}
                 className={`${getTagColor(index)} px-3 py-1 rounded-full text-xs font-medium`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
                 {tag}
-              </motion.span>
+              </span>
             ))}
           </div>
 
-          <motion.p 
-            className="text-gray-600 dark:text-gray-300 text-sm mb-6 leading-relaxed"
-            whileHover={{ color: "#0D2F3F" }}
-            transition={{ duration: 0.3 }}
-          >
+          <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 leading-relaxed">
             {subtitle}
-          </motion.p>
+          </p>
         </div>
 
-        {/* Buttons */}
+        {/* Button Group */}
         <div className="mt-auto pt-6">
           <div className="flex justify-end gap-3">
-            <motion.a
+            <a
               href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white bg-[#0D2F3F] hover:bg-[#1a4a60] transition-all py-2 px-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium"
-              whileHover={{ y: -3, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="text-white bg-[#0D2F3F] hover:bg-[#1a4a60] transition-all py-2 px-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium shadow-sm"
             >
               <FaCode size={14} />
               Code
-            </motion.a>
+            </a>
             
             {liveLink ? (
-              <motion.a
+              <a
                 href={liveLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gradient-to-r from-[#FF923E] to-[#FF7B3A] hover:from-[#FF7B3A] hover:to-[#FF923E] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
-                whileHover={{ y: -3, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                className="bg-gradient-to-r from-[#FF923E] to-[#FF7B3A] hover:from-[#FF7B3A] hover:to-[#FF923E] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm"
               >
                 <FaExternalLinkAlt size={14} />
                 Live View
-              </motion.a>
+              </a>
             ) : (
-              <motion.button
-                className="bg-gradient-to-r from-[#FF923E] to-[#FF7B3A] hover:from-[#FF7B3A] hover:to-[#FF923E] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
-                whileHover={{ y: -3, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              <button
+                className="bg-gradient-to-r from-[#FF923E] to-[#FF7B3A] hover:from-[#FF7B3A] hover:to-[#FF923E] text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm"
               >
                 <FaTwitter size={16} />
                 Follow Updates
-              </motion.button>
+              </button>
             )}
           </div>
         </div>
       </div>
     </motion.div>
   );
-}
+};
 
 export default ProjectCard;
