@@ -7,15 +7,17 @@ import { FaCode, FaServer, FaShoppingCart, FaBrain } from "react-icons/fa";
 
 const textContent = [
   {
-    text: "I am a Full-Stack Software Developer with over three years of experience building scalable and user-friendly web applications. With a strong foundation in the MERN stack, I specialize in crafting seamless user experiences and optimizing performance for e-commerce platforms and dynamic web solutions.",
+    id: 1,
+    text: "I am a Full-Stack Software Developer with over three years of experience building scalable and user-friendly web applications. With a strong foundation in the Full-Stack, I specialize in crafting seamless user experiences and optimizing performance for e-commerce platforms and dynamic web solutions.",
     highlights: [
       "Full-Stack Software Developer",
-      "MERN stack", 
+      "strong foundation in the Full-Stack", 
       "e-commerce platforms"
     ],
     icons: [<FaCode key="code" />, <FaServer key="server" />, <FaShoppingCart key="cart" />]
   },
   {
+    id: 2,
     text: "Driven by a passion for clean code and continuous learning, I stay up-to-date with the latest technologies to create innovative solutions. I thrive in collaborative environments, where I can contribute my expertise while learning from others. Whether it's developing intuitive front-end interfaces or architecting robust back-end systems, I am always eager to take on new challenges and push the boundaries of what's possible.",
     highlights: [
       "clean code",

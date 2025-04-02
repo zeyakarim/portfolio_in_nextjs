@@ -49,11 +49,27 @@ const ProjectCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true, amount: 0.2 }}
-      className="relative w-full max-w-[23rem] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 h-full flex flex-col hover:shadow-xl transition-shadow duration-300"
+      className="relative w-full max-w-[23rem] bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg h-full flex flex-col"
+      whileHover={{
+        boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        border: "1px solid rgba(255, 146, 62, 0.5)",
+        transition: { duration: 0.3 }
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Image Carousel with enhanced interactions */}
+      {/* Glow effect */}
+      <motion.div 
+        className="absolute inset-0 rounded-xl pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ 
+          opacity: isHovered ? 1 : 0,
+          boxShadow: "0 0 20px rgba(255, 146, 62, 0.3)"
+        }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Image Carousel */}
       <div className="relative h-64 w-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
@@ -133,7 +149,7 @@ const ProjectCard = ({
           </motion.p>
         </div>
 
-        {/* Enhanced Button Group */}
+        {/* Buttons */}
         <div className="mt-auto pt-6">
           <div className="flex justify-end gap-3">
             <motion.a
