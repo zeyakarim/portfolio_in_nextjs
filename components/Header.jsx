@@ -10,21 +10,21 @@ const Header = () => {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.playbackRate = 0.75; // Adjust video speed
+            videoRef.current.playbackRate = 0.75;
         }
     }, []);
 
     return (
-        <div className="relative w-full h-screen bg-[#F5EFE6] flex flex-col overflow-hidden">
-            {/* Navbar */}
+        <div className="relative w-full min-h-screen bg-[#F5EFE6] flex flex-col overflow-hidden">
+            {/* Navbar - Fixed at top */}
             <Navbar />
 
-            {/* Content Section */}
-            <section className="w-full flex flex-col items-center text-center px-6 max-w-[90rem] mx-auto md:my-auto z-10 md:items-start md:text-left md:px-0">
+            {/* Content Section - Properly spaced */}
+            <section className="w-full flex-1 flex flex-col items-center text-center px-6 max-w-[90rem] mx-auto z-10 pt-[calc(4rem+env(safe-area-inset-top))] md:pt-[calc(6rem+env(safe-area-inset-top))] md:justify-center md:items-start md:text-left md:px-8 lg:px-12">
                 <HelloExperience />
             </section>
 
-            {/* Zoomed-In Video on Mobile (With Space from Top & Bottom) */}
+            {/* Mobile Video */}
             <motion.video
                 ref={videoRef}
                 autoPlay
@@ -37,23 +37,21 @@ const Header = () => {
                 transition={{ duration: 1 }}
             >
                 <source src="/teaser.webm" type="video/webm" />
-                Your browser does not support the video tag.
             </motion.video>
 
-            {/* Background Video for Desktop */}
+            {/* Desktop Video - Behind content */}
             <motion.video
                 ref={videoRef}
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="hidden md:block absolute top-0 left-0 w-full h-full object-cover"
+                className="hidden md:block absolute top-0 left-0 w-full h-full object-cover z-0"
                 initial={{ scale: 1 }}
-                whileHover={{ scale: 1.05, x: 5, y: 5 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.8 }}
             >
                 <source src="/teaser.webm" type="video/webm" />
-                Your browser does not support the video tag.
             </motion.video>
         </div>
     );
