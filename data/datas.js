@@ -35,8 +35,10 @@ export const skills = [
   ];
 
 export const codielWebsiteImages = [
+    { src: "/sign-up.png" },
     { src: "/codeial-homepage.png" },
     { src: "/teachers-page.png" },
+    { src: "/teacher-details.png" },
     { src: "/form.png" },
 ];
 
