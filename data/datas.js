@@ -57,7 +57,7 @@ export const appImages = [
 export const experiences = [
     {
         company: "DEPO24",
-        duration: "OCT 2022 - FEB 2025",
+        duration: "SEP 2022 - FEB 2025",
         role: "Full-Stack Developer",
         link: 'https://depo24.in/',
         companyDescription: 'DEPO24 is a leading digital platform for interior designers, architects, technicians, and homeowners for buying home building products.',
