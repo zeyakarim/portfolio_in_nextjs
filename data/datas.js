@@ -43,6 +43,7 @@ export const codielWebsiteImages = [
 ];
 
 export const onlineCheckInWebsiteImages = [
+    { src: "/tripster-homepage.png"},
     { src: "/online-check-in.png" },
     { src: "/hotels.png" },
     { src: "/booking-section.png" },

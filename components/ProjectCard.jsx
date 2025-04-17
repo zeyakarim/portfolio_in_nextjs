@@ -123,16 +123,16 @@ const ProjectCard = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showPopup, popupIndex]);
 
-  // Disable body scroll when popup is open
-  useEffect(() => {
-    if (showPopup) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-      document.documentElement.style.overflow = 'auto';
-    }
-  }, [showPopup]);
+  // // Disable body scroll when popup is open
+  // useEffect(() => {
+  //   if (showPopup) {
+  //     document.body.style.overflow = 'hidden';
+  //     document.documentElement.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = 'auto';
+  //     document.documentElement.style.overflow = 'auto';
+  //   }
+  // }, [showPopup]);
 
   const getTagColor = (index) => {
     return TAG_COLORS[index % TAG_COLORS.length];
