@@ -57,6 +57,20 @@ export const appImages = [
 
 export const experiences = [
     {
+        company: "GWARM Techonologies PVT. LTD.",
+        duration: "APR 2025 - PRESENT",
+        role: "Senior Software Engineer",
+        link: 'https://www.gwarm.net/',
+        companyDescription: 'GWARM Technologies Pvt. Ltd., transforming innovative ideas into real-world digital products across logistics, e-commerce, and cloud-based platforms.',
+        descriptions: [ 
+            'Key member of the GWARM Techonologies Technical Team, contributing to the development of robust and scalable software applications using the PERN Stack.',
+            'Designed and developed a scalable Super Admin web platform for internal operations, enabling centralized management of users, roles, and permissions.',
+            'Built with Next.js, Node.js, and PostgreSQL using TypeScript for full-stack efficiency, type safety, and performance.',
+            'Led the development of a Last Mile delivery system tailored for clients with their own warehouses, enabling seamless order, inventory, and staff management.'
+        ],
+        color: "#EF4444",
+    },
+    {
         company: "DEPO24",
         duration: "SEP 2022 - FEB 2025",
         role: "Full-Stack Developer",
