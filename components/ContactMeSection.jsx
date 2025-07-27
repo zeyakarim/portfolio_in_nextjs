@@ -120,7 +120,7 @@ const ContactMeSection = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-medium text-[#0D2F3F]">Location</h4>
-                                    <p className='text-[#0D2F3F] opacity-90 mt-1'>Bihar Sharif, Bihar, India</p>
+                                    <p className='text-[#0D2F3F] opacity-90 mt-1'>Jaipur, Rajasthan, India</p>
                                 </div>
                             </motion.div>
 

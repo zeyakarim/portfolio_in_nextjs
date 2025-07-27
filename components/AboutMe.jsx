@@ -302,7 +302,7 @@ const AboutMe = () => {
                       animate={{ opacity: 1 }}
                       transition={{ delay: (textContent[0].text.length * 0.015) + 0.5 }}
                     >
-                      {['React', 'Node.js', 'MongoDB', 'PostGre', 'Express', 'Next.js'].map((tech, i) => (
+                      {['React', 'Node.js', 'MongoDB', 'PostGre (DB)', 'Express', 'Next.js'].map((tech, i) => (
                         <motion.div
                           key={tech}
                           className="bg-teal-50 border border-teal-100 rounded-lg px-3 py-2 text-sm font-medium text-teal-800 flex items-center gap-2"

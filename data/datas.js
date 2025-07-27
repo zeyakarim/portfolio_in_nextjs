@@ -27,7 +27,7 @@ export const skills = [
     { name: "AWS (EC2)", image: "/aws-ec2.png", experiences: "Deploying and managing virtual servers on AWS EC2 for 1.5 years.", proficiency: 60, category: "DevOps" },
     { name: "AWS (RDS)", image: "/aws-rds.png", experiences: "Setting up and managing cloud databases using AWS RDS for 1.5 years.", proficiency: 60, category: "DevOps" },
     { name: "AWS (S3)", image: "/aws-s3.png", experiences: "Storing and serving static assets securely with AWS S3 for 1.5 years.", proficiency: 60, category: "DevOps" },
-    { name: "Ubuntu", image: "/ubuntu.png", experiences: "Managing Linux-based server environments with Ubuntu for 2+ years.", proficiency: 60, category: "DevOps" },
+    // { name: "Ubuntu", image: "/ubuntu.png", experiences: "Managing Linux-based server environments with Ubuntu for 2+ years.", proficiency: 60, category: "DevOps" },
   
     // Tools
     { name: "Git", image: "/git.png", experiences: "Tracking code changes and collaborating on projects using Git for 3+ years.", proficiency: 70, category: "Tools" },
