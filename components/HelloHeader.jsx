@@ -95,7 +95,8 @@ const HelloExperience = () => {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
                     </span>
-                    Full-Stack Developer
+                    {/* Full-Stack Developer */}
+                    Senior Software Engineer
                 </p>
             </motion.div>
 
@@ -109,7 +110,7 @@ const HelloExperience = () => {
                 <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="/resume.pdf" 
+                    href="/zeya-karim-resume.pdf" 
                     download="Zeya_Karim_Resume.pdf"
                     className="rounded-full px-6 py-3 bg-teal-600 text-white font-medium flex items-center gap-2 shadow-md hover:bg-teal-700 transition-all"
                 >

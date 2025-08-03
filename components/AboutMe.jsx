@@ -3,30 +3,41 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaCode, FaServer, FaShoppingCart, FaBrain } from "react-icons/fa";
+import { FaCode, FaServer, FaShoppingCart, FaBrain, FaLaptopCode, FaCogs } from "react-icons/fa";
 
-const textContent = [
+export const textContent = [
   {
     id: 1,
-    text: "I am a Full-Stack Software Developer with over three years of experience building scalable and user-friendly web applications. With a strong foundation in the Full-Stack, I specialize in crafting seamless user experiences and optimizing performance for e-commerce platforms and dynamic web solutions.",
+    text: "I am a Senior Software Engineer with over three years of professional experience developing scalable, high-performance web applications. With deep expertise in full-stack development, I specialize in building robust e-commerce platforms, logistics solutions, and cloud-native systems using modern technologies like Next.js, Node.js, TypeScript, and PostgreSQL.",
     highlights: [
-      "Full-Stack Software Developer",
-      "strong foundation in the Full-Stack", 
-      "e-commerce platforms"
+      "Senior Software Engineer",
+      "full-stack development",
+      "e-commerce platforms",
+      "cloud-native systems"
     ],
-    icons: [<FaCode key="code" />, <FaServer key="server" />, <FaShoppingCart key="cart" />]
+    icons: [
+      <FaCode key="code" />,
+      <FaServer key="server" />,
+      <FaShoppingCart key="cart" />
+    ]
   },
   {
     id: 2,
-    text: "Driven by a passion for clean code and continuous learning, I stay up-to-date with the latest technologies to create innovative solutions. I thrive in collaborative environments, where I can contribute my expertise while learning from others. Whether it's developing intuitive front-end interfaces or architecting robust back-end systems, I am always eager to take on new challenges and push the boundaries of what's possible.",
+    text: "I’m passionate about clean code, scalable architecture, and lifelong learning. I stay current with the latest tech trends and enjoy tackling complex problems through collaboration and innovation. From architecting full-stack platforms to mentoring peers and improving development workflows, I consistently strive to deliver impactful software solutions.",
     highlights: [
       "clean code",
-      "front-end interfaces",
-      "back-end systems"
+      "scalable architecture",
+      "collaboration",
+      "mentoring"
     ],
-    icons: [<FaBrain key="brain" />, <FaCode key="frontend" />, <FaServer key="backend" />]
+    icons: [
+      <FaBrain key="brain" />,
+      <FaLaptopCode key="architecture" />,
+      <FaCogs key="mentoring" />
+    ]
   }
 ];
+
 
 const HighlightedTypewriter = ({ content, speed = 20, delay = 0 }) => {
   const [isMounted, setIsMounted] = useState(false);

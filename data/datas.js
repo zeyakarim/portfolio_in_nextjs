@@ -1,38 +1,39 @@
 export const skills = [
-    // Frontend
-    { name: "HTML", image: "/html.png", experiences: "Building structured and semantic web pages for 3+ years.", proficiency: 80, category: "Frontend" },
-    { name: "CSS", image: "/css.png", experiences: "Designing visually appealing and responsive web layouts for 3+ years.", proficiency: 80, category: "Frontend" },
-    { name: "Tailwind CSS", image: "/tailwind.png", experiences: "Creating modern and flexible UI designs with Tailwind CSS for 3+ years.", proficiency: 70, category: "Frontend" },
-    { name: "JavaScript", image: "/javascript.png", experiences: "Enhancing web interactivity and logic with JavaScript for 3+ years.", proficiency: 70, category: "Frontend" },
-    { name: "React", image: "/reactjs.png", experiences: "Developing reusable UI components and single-page applications for 3+ years.", proficiency: 75, category: "Frontend" },
-    { name: "Material UI", image: "/material-ui.png", experiences: "Implementing Material Design UI components for 3+ years.", proficiency: 70, category: "Frontend" },
-    { name: "Next.js", image: "/nextjs.png", experiences: "Developing SEO-friendly and high-performance applications for 3+ years.", proficiency: 70, category: "Frontend" },
-  
-    // Mobile
-    { name: "React Native", image: "/react-native.png", experiences: "Building cross-platform mobile applications for 1.5+ years.", proficiency: 60, category: "Mobile" },
-    { name: "Expo", image: "/expo.png", experiences: "Streamlining React Native development and deployment with Expo for 1.5+ year.", proficiency: 60, category: "Mobile" },
-  
-    // Backend
-    { name: "Node.js", image: "/nodejs.png", experiences: "Creating scalable backend services and APIs for 3+ years.", proficiency: 70, category: "Backend" },
-    { name: "Express.js", image: "/express.png", experiences: "Building RESTful APIs and backend logic with Express.js for 3+ years.", proficiency: 70, category: "Backend" },
-  
-    // Database
-    { name: "Mongoose", image: "/mongoose.png", experiences: "Managing MongoDB databases using Mongoose ORM for 3+ years.", proficiency: 70, category: "Database" },
-    { name: "Sequelize ORM", image: "/sequelize.png", experiences: "Interacting with SQL databases using Sequelize ORM for 3+ years.", proficiency: 70, category: "Database" },
-    { name: "Prisma ORM", image: "/prisma.png", experiences: "Handling database queries efficiently using Prisma ORM for 3+ years.", proficiency: 70, category: "Database" },
-    { name: "PostgreSQL", image: "/postgre.png", experiences: "Designing relational databases and writing optimized queries for 3+ years.", proficiency: 70, category: "Database" },
-    { name: "SQL", image: "/sql.png", experiences: "Managing structured data and writing efficient SQL queries for 3+ years.", proficiency: 70, category: "Database" },
-  
-    // DevOps
-    { name: "AWS (EC2)", image: "/aws-ec2.png", experiences: "Deploying and managing virtual servers on AWS EC2 for 1.5 years.", proficiency: 60, category: "DevOps" },
-    { name: "AWS (RDS)", image: "/aws-rds.png", experiences: "Setting up and managing cloud databases using AWS RDS for 1.5 years.", proficiency: 60, category: "DevOps" },
-    { name: "AWS (S3)", image: "/aws-s3.png", experiences: "Storing and serving static assets securely with AWS S3 for 1.5 years.", proficiency: 60, category: "DevOps" },
-    // { name: "Ubuntu", image: "/ubuntu.png", experiences: "Managing Linux-based server environments with Ubuntu for 2+ years.", proficiency: 60, category: "DevOps" },
-  
-    // Tools
-    { name: "Git", image: "/git.png", experiences: "Tracking code changes and collaborating on projects using Git for 3+ years.", proficiency: 70, category: "Tools" },
-    { name: "PDF Creator", image: "/pdf.png", experiences: "Generating dynamic PDF documents for reports and invoices for 3+ year.", proficiency: 60, category: "Tools" }
-  ];
+  // Frontend
+  { name: "HTML", image: "/html.png", experiences: "Building structured and semantic web pages for 3+ years.", proficiency: 80, category: "Frontend" },
+  { name: "CSS", image: "/css.png", experiences: "Designing visually appealing and responsive web layouts for 3+ years.", proficiency: 80, category: "Frontend" },
+  { name: "Tailwind CSS", image: "/tailwind.png", experiences: "Creating modern and flexible UI designs with Tailwind CSS for 3+ years.", proficiency: 70, category: "Frontend" },
+  { name: "JavaScript", image: "/javascript.png", experiences: "Enhancing web interactivity and logic with JavaScript for 3+ years.", proficiency: 70, category: "Frontend" },
+  { name: "React", image: "/reactjs.png", experiences: "Developing reusable UI components and single-page applications for 3+ years.", proficiency: 75, category: "Frontend" },
+  { name: "Material UI", image: "/material-ui.png", experiences: "Implementing Material Design UI components for 3+ years.", proficiency: 70, category: "Frontend" },
+  { name: "Next.js", image: "/nextjs.png", experiences: "Developing SEO-friendly and high-performance applications for 3+ years.", proficiency: 70, category: "Frontend" },
+  { name: "TypeScript", image: "/typescript.png", experiences: "Writing type-safe JavaScript applications using TypeScript for 1+ years.", proficiency: 65, category: "Frontend" },
+
+  // Mobile
+  { name: "React Native", image: "/react-native.png", experiences: "Building cross-platform mobile applications for 1.5+ years.", proficiency: 60, category: "Mobile" },
+  { name: "Expo", image: "/expo.png", experiences: "Streamlining React Native development and deployment with Expo for 1.5+ year.", proficiency: 60, category: "Mobile" },
+
+  // Backend
+  { name: "Node.js", image: "/nodejs.png", experiences: "Creating scalable backend services and APIs for 3+ years.", proficiency: 70, category: "Backend" },
+  { name: "Express.js", image: "/express.png", experiences: "Building RESTful APIs and backend logic with Express.js for 3+ years.", proficiency: 70, category: "Backend" },
+
+  // Database
+  { name: "Mongoose", image: "/mongoose.png", experiences: "Managing MongoDB databases using Mongoose ORM for 3+ years.", proficiency: 70, category: "Database" },
+  { name: "Sequelize ORM", image: "/sequelize.png", experiences: "Interacting with SQL databases using Sequelize ORM for 3+ years.", proficiency: 70, category: "Database" },
+  { name: "Prisma ORM", image: "/prisma.png", experiences: "Handling database queries efficiently using Prisma ORM for 3+ years.", proficiency: 70, category: "Database" },
+  { name: "PostgreSQL", image: "/postgre.png", experiences: "Designing relational databases and writing optimized queries for 3+ years.", proficiency: 70, category: "Database" },
+  { name: "SQL", image: "/sql.png", experiences: "Managing structured data and writing efficient SQL queries for 3+ years.", proficiency: 70, category: "Database" },
+
+  // DevOps
+  { name: "AWS (EC2)", image: "/aws-ec2.png", experiences: "Deploying and managing virtual servers on AWS EC2 for 1.5 years.", proficiency: 60, category: "DevOps" },
+  { name: "AWS (RDS)", image: "/aws-rds.png", experiences: "Setting up and managing cloud databases using AWS RDS for 1.5 years.", proficiency: 60, category: "DevOps" },
+  { name: "AWS (S3)", image: "/aws-s3.png", experiences: "Storing and serving static assets securely with AWS S3 for 1.5 years.", proficiency: 60, category: "DevOps" },
+
+  // Tools
+  { name: "Git", image: "/git.png", experiences: "Tracking code changes and collaborating on projects using Git for 3+ years.", proficiency: 70, category: "Tools" },
+  { name: "PDF Creator", image: "/pdf.png", experiences: "Generating dynamic PDF documents for reports and invoices for 3+ year.", proficiency: 60, category: "Tools" }
+];
+
 
 export const codielWebsiteImages = [
     { src: "/sign-up.png" },
