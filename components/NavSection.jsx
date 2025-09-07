@@ -54,9 +54,9 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className={`fixed w-full top-0 left-0 z-50 transition-all duration-500 ${
-                    scrolled ? "bg-white/95 backdrop-blur-lg py-3 shadow-sm" : "bg-white/90 backdrop-blur-md py-4"
-                }`}
+                className={`fixed top-2 left-3 -translate-x-1/2 z-50 transition-all duration-500 w-[98%] rounded-full shadow py-3 ${
+          scrolled ? "bg-[#F7F7F5]/50 backdrop-blur-lg" : "bg-[#F7F7F5]/50 backdrop-blur-md"
+        }`}
             >
                 <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
                     {/* Logo/Brand */}

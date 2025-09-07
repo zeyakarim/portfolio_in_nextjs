@@ -237,7 +237,7 @@ const AboutMe = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
                 <Image
-                  src="/bootcamp.png"
+                  src="/hero-section-image.png"
                   alt="Profile"
                   width={400}
                   height={500}
