@@ -1,196 +1,317 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaExternalLinkAlt, FaGithub, FaLinkedin } from "react-icons/fa";
-import { Typewriter } from "react-simple-typewriter";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
-const HelloExperience = () => {
-  // Experience Counter Animation
+const HeroHeader = () => {
   const count = useMotionValue(0);
-  const roundedCount = useTransform(count, (latest) => `${Math.floor(latest)}`);
+  const roundedCount = useTransform(count, (latest) => Math.floor(latest));
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
-    const controls = animate(count, 3, {
-      duration: 2,
-      ease: [0.16, 1, 0.3, 1],
-    });
-    return controls.stop;
-  }, [count]);
-
-  // Background Spotlight Effect
-  const divRef = useRef(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (divRef.current) {
-        const rect = divRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    };
-
-    const currentDiv = divRef.current;
-    if (currentDiv) {
-      currentDiv.addEventListener("mousemove", handleMouseMove);
+    if (isInView) {
+      animate(count, 3, { duration: 2.5, ease: "easeOut" });
     }
+  }, [count, isInView]);
 
-    return () => {
-      if (currentDiv) {
-        currentDiv.removeEventListener("mousemove", handleMouseMove);
+  // Text animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.4,
       }
-    };
-  }, []);
+    }
+  };
 
-  const lightGradient = {
-    background: `transparent radial-gradient(400px at ${mousePosition.x}px ${mousePosition.y}px, rgba(6, 182, 212, 0.15), transparent 80%)`,
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    }
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.05 + 1,
+        duration: 0.7,
+        ease: "easeOut"
+      }
+    })
   };
 
   return (
-    <motion.div
-      ref={divRef}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative flex flex-col items-start text-left max-w-3xl px-6 md:px-0 py-12 md:py-20 rounded-lg overflow-hidden"
-      style={lightGradient}
+    <motion.section 
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className="relative w-full min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden bg-gradient-to-br from-[#0D2F3F] to-[#1A4D5C]"
     >
-      {/* Header */}
-      <div className="mb-8">
-        <h2 className="text-4xl md:text-6xl font-extrabold text-[#0D2F3F] leading-tight">
-          <span className="block mb-2 text-base md:text-lg font-medium text-teal-600">
-            Hello, I'm
-          </span>
-          <span className="text-teal-600 relative inline-block">
-            <Typewriter
-              words={["Zeya Karim"]}
-              loop={0}
-              cursor
-              cursorStyle="|"
-              typeSpeed={100}
-              deleteSpeed={50}
-              delaySpeed={1000}
-            />
-          </span>
-        </h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-lg md:text-xl text-[#0D2F3F] mt-4 leading-relaxed"
-        >
-          Crafting{" "}
-          <span className="font-bold text-teal-600">
-            exceptional user experiences
-          </span>{" "}
-          that people love.
-        </motion.p>
+      {/* Animated background elements */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Animated gradient orbs */}
+        <motion.div
+          className="absolute top-20 left-20 w-80 h-80 bg-teal-400/20 rounded-full blur-3xl"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.8, delay: 0.3 }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-96 h-96 bg-amber-400/15 rounded-full blur-3xl"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.8, delay: 0.6 }}
+        />
+        
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 rounded-full bg-white/30"
+            style={{
+              top: `${10 + (i * 6)}%`,
+              left: `${5 + (i * 6)}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 20, 0],
+              scale: [1, 1.4, 1],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{
+              duration: 5 + Math.random() * 5,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+        
+        {/* Animated grid lines */}
+        <div className="absolute inset-0 opacity-20 bg-grid-white bg-center bg-cover" />
       </div>
 
-      {/* Experience Counter */}
-      <motion.div
-        className="flex items-center gap-4 mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-      >
-        <motion.span
-          className="text-5xl md:text-6xl font-black text-teal-600 relative"
-          style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.1)" }}
+      <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 z-10">
+        {/* Text content with enhanced animations */}
+        <motion.div
+          variants={containerVariants}
+          className="flex-1 text-center md:text-left"
         >
-          <motion.span>{roundedCount}</motion.span>
-          <motion.div
-            className="absolute bottom-0 left-0 w-full h-1 bg-teal-600/50"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 1.5, duration: 1.5, ease: "easeOut" }}
-          />
-        </motion.span>
-
-        <span className="text-xl md:text-2xl font-bold text-[#0D2F3F]">
-          Years of
-          <br />
-          Experience
-        </span>
-      </motion.div>
-
-      {/* Animated Badge */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.2, duration: 0.8, type: "spring", stiffness: 100 }}
-        whileHover={{
-          scale: 1.05,
-          boxShadow: "0 10px 20px rgba(0, 0, 0, 0.15)",
-          transition: { duration: 0.3 },
-        }}
-        className="mt-4 mb-8 inline-block rounded-full px-6 py-3 bg-gradient-to-r from-teal-500 to-teal-700 shadow-lg"
-      >
-        <p className="text-lg font-semibold text-white flex items-center gap-2">
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
-          </span>
-          Senior Software Engineer
-        </p>
-      </motion.div>
-
-      {/* Action Buttons */}
-      <motion.div
-        className="flex flex-wrap gap-4 mb-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-      >
-        <motion.a
-          whileHover={{ scale: 1.05, boxShadow: "0 8px 16px rgba(0, 0, 0, 0.15)" }}
-          whileTap={{ scale: 0.95 }}
-          href="/zeya-karim-resume.pdf"
-          download="Zeya_Karim_Resume.pdf"
-          className="rounded-full px-6 py-3 bg-teal-600 text-white font-medium flex items-center gap-2 shadow-md hover:bg-teal-700 transition-all"
-        >
-          Download CV <FaExternalLinkAlt size={14} />
-        </motion.a>
-
-        <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          href="#contact"
-          className="rounded-full px-6 py-3 bg-white text-[#0D2F3F] border border-[#0D2F3F] font-medium flex items-center gap-2 shadow-md hover:bg-gray-100 transition-all"
-        >
-          Contact Me
-        </motion.a>
-      </motion.div>
-
-      {/* Social Links */}
-      <motion.div
-        className="flex gap-5"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.6, duration: 0.8 }}
-      >
-        {[
-          { icon: <FaLinkedin size={20} />, url: "https://www.linkedin.com/in/zeya-karim-a1362a203/" },
-          { icon: <FaGithub size={20} />, url: "https://github.com/zeyakarim" },
-        ].map((social, index) => (
-          <motion.a
-            key={index}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ y: -5, scale: 1.2, color: "#14B8A6" }}
-            whileTap={{ scale: 0.9 }}
-            className="rounded-full p-3 text-[#0D2F3F] transition-all"
+          <motion.p 
+            variants={itemVariants}
+            className="text-lg md:text-xl font-semibold text-white/80 mb-4"
           >
-            {social.icon}
-          </motion.a>
-        ))}
+            Hello, I am
+          </motion.p>
+          
+          <motion.h1 
+            variants={itemVariants}
+            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
+          >
+            {"Zeya Karim".split("").map((letter, i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={letterVariants}
+                className="inline-block"
+                whileHover={{ scale: 1.2, color: "#4FD1C5", transition: { duration: 0.2 } }}
+              >
+                {letter === " " ? "\u00A0" : letter}
+              </motion.span>
+            ))}
+          </motion.h1>
+          
+          <motion.div
+            variants={itemVariants}
+            className="mb-8"
+          >
+            <div className="inline-flex flex-wrap justify-center md:justify-start">
+              {"Senior Software Engineer".split(" ").map((word, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 + i * 0.2, duration: 0.7 }}
+                  className="text-2xl md:text-3xl font-medium text-white/90 mr-3 mb-2 inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+          
+          <motion.div
+            variants={itemVariants}
+            className="inline-flex items-center gap-6 mt-2 bg-white/10 backdrop-blur-md rounded-full px-8 py-4 shadow-lg border border-white/20"
+            whileHover={{ 
+              scale: 1.05, 
+              boxShadow: "0 0 30px rgba(79, 209, 197, 0.4)",
+              transition: { duration: 0.3 }
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <motion.div 
+                className="w-3 h-3 rounded-full bg-teal-400"
+                animate={{ scale: [1, 1.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <p className="text-lg font-semibold text-white">
+                <motion.span className="text-2xl font-extrabold mr-1 text-teal-300">
+                  <motion.span>{roundedCount}</motion.span>+
+                </motion.span>{" "}
+                Years Experience
+              </p>
+            </div>
+          </motion.div>
+          
+          {/* Call to action buttons */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-wrap gap-4 mt-8"
+          >
+            <motion.button
+              className="px-8 py-4 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-full font-semibold shadow-lg relative overflow-hidden group"
+              whileHover={{ y: -5, scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              href="/zeya-karim-resume.pdf"
+            >
+              Download CV <FaExternalLinkAlt size={14} />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-teal-600 to-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              />
+              <motion.div 
+                className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700"
+              />
+            </motion.button>
+            
+            <motion.button
+              className="px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full font-semibold border border-white/20 relative overflow-hidden group"
+              whileHover={{ y: -5, scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              href="#experience"
+            >
+              <span className="relative z-10">View My Work</span>
+              <motion.div 
+                className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              />
+            </motion.button>
+          </motion.div>
+        </motion.div>
+
+        {/* Image container with enhanced styling */}
+        <motion.div
+          className="flex-1 flex justify-center relative"
+          initial={{ opacity: 0, x: 100, rotate: 5 }}
+          animate={{ opacity: 1, x: 0, rotate: 0 }}
+          transition={{ duration: 1.2, type: "spring", stiffness: 80, delay: 0.6 }}
+        >
+          <motion.div 
+            className="relative rounded-full overflow-hidden shadow-2xl border-8 border-white/20 transition-all duration-500 group"
+            whileHover={{ 
+              rotate: -2, 
+              boxShadow: "0 25px 50px -12px rgba(79, 209, 197, 0.4)",
+              transition: { duration: 0.5 }
+            }}
+            style={{
+              transformStyle: "preserve-3d"
+            }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-teal-400/20 to-amber-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"
+              initial={{ opacity: 0 }}
+            />
+            
+            <div className="relative overflow-hidden rounded-full">
+              <Image
+                src="/hero-section-image.png"
+                alt="Zeya Karim"
+                width={400}
+                height={500}
+                className="object-cover w-full h-auto transition-transform duration-700 group-hover:scale-110 rounded-full"
+                priority
+                onLoadingComplete={() => setImageLoaded(true)}
+              />
+              
+              {/* Shine effect on hover */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 z-20"
+                initial={{ x: "-100%" }}
+              />
+            </div>
+            
+            {/* Floating elements around image */}
+            <motion.div
+              className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-teal-500 shadow-lg"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 1.4, type: "spring" }}
+              whileHover={{ scale: 1.2, rotate: 180 }}
+            />
+            <motion.div
+              className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-amber-500 shadow-lg"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 1.6, type: "spring" }}
+              whileHover={{ scale: 1.2, rotate: -180 }}
+            />
+          </motion.div>
+          
+          {/* Decorative elements */}
+          <motion.div
+            className="absolute -top-10 -right-10 w-20 h-20 border-4 border-teal-400/30 rounded-full"
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 1.8, type: "spring" }}
+          />
+          <motion.div
+            className="absolute -bottom-8 -left-8 w-16 h-16 border-4 border-amber-400/30 rounded-full"
+            initial={{ scale: 0, rotate: 45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ delay: 2, type: "spring" }}
+          />
+        </motion.div>
+      </div>
+      
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5 }}
+      >
+        <motion.div
+          className="text-white/70 text-sm font-medium mb-2"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          Scroll to explore
+        </motion.div>
+        <motion.div
+          className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1"
+        >
+          <motion.div
+            className="w-2 h-2 bg-teal-400 rounded-full"
+            animate={{ y: [0, 18, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </motion.section>
   );
 };
 
-export default HelloExperience;
+export default HeroHeader;
