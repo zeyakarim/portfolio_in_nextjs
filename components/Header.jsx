@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "./NavSection";
-import HelloExperience from "./HelloHeader";
+import HelloHeader from "./HelloHeader";
 
 const Header = () => {
     const videoRef = useRef(null);
@@ -19,32 +19,32 @@ const Header = () => {
     // Parallax effect for background elements
     const yBackground = useTransform(scrollY, [0, 300], [0, 50]);
 
-    useEffect(() => {
-        if (videoRef.current) {
-            videoRef.current.playbackRate = 0.75;
+    // useEffect(() => {
+    //     if (videoRef.current) {
+    //         videoRef.current.playbackRate = 0.75;
             
-            const playVideo = () => {
-                videoRef.current.play().catch(error => {
-                    console.error("Video autoplay failed:", error);
-                });
-            };
+    //         const playVideo = () => {
+    //             videoRef.current.play().catch(error => {
+    //                 console.error("Video autoplay failed:", error);
+    //             });
+    //         };
             
-            if (videoRef.current.readyState >= 3) {
-                playVideo();
-            } else {
-                videoRef.current.addEventListener('loadeddata', playVideo);
-                videoRef.current.addEventListener('canplay', () => {
-                    setIsVideoLoaded(true);
-                });
-            }
+    //         if (videoRef.current.readyState >= 3) {
+    //             playVideo();
+    //         } else {
+    //             videoRef.current.addEventListener('loadeddata', playVideo);
+    //             videoRef.current.addEventListener('canplay', () => {
+    //                 setIsVideoLoaded(true);
+    //             });
+    //         }
             
-            return () => {
-                if (videoRef.current) {
-                    videoRef.current.removeEventListener('loadeddata', playVideo);
-                }
-            };
-        }
-    }, []);
+    //         return () => {
+    //             if (videoRef.current) {
+    //                 videoRef.current.removeEventListener('loadeddata', playVideo);
+    //             }
+    //         };
+    //     }
+    // }, []);
 
     return (
         <div 
@@ -69,11 +69,11 @@ const Header = () => {
                 // style={{ y: springY, opacity }}
                 className="w-full flex-1 flex flex-col items-center text-center px-6 max-w-[90rem] mx-auto z-10 pt-[calc(4rem+env(safe-area-inset-top))] md:pt-[calc(6rem+env(safe-area-inset-top))] md:justify-center md:items-start md:text-left md:px-8 lg:px-12"
             >
-                <HelloExperience />
+                <HelloHeader />
             </motion.section>
 
             {/* Mobile Video */}
-            <motion.div
+            {/* <motion.div
                 className="relative w-full h-[50vh] mt-6 mb-6 md:hidden overflow-hidden rounded-tl-[40px] rounded-br-[40px] mx-4 border border-white/20 shadow-2xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -96,10 +96,10 @@ const Header = () => {
                     Your browser does not support the video tag.
                 </motion.video>
                 
-                {/* Video overlay gradient */}
+                {/* Video overlay gradient 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#F5EFE6]/80 via-transparent to-transparent" />
                 
-                {/* Playful animated elements around video */}
+                {/* Playful animated elements around video 
                 <motion.div
                     className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-teal-500"
                     animate={{ 
@@ -125,7 +125,7 @@ const Header = () => {
                         delay: 0.5
                     }}
                 />
-            </motion.div>
+            </motion.div> */}
 
             {/* Desktop Video - Behind content */}
             <motion.div 

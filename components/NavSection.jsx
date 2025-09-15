@@ -23,12 +23,12 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
-  const [hoveredItem, setHoveredItem] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-      const sections = ['about', 'experience', 'projects', 'contact'];
+      setScrolled(window.scrollY > 50);
+
+      const sections = ["about", "experience", "projects", "contact"];
       let currentActiveSection = null;
 
       for (const section of sections) {
@@ -48,194 +48,182 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.5,
-      },
-    }),
-  };
-
   return (
     <>
+      {/* Desktop Navbar */}
       <motion.nav
-        initial={{ opacity: 0, y: -100 }}
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
-        className={`fixed top-2 left-[2%] right-0 z-50 w-[96%] transition-all duration-300 rounded-full ${
-          scrolled ? "bg-white/80 backdrop-blur-lg shadow-sm" : "bg-[#e7f7ff] shadow-2xl"
-        }`}
+        className="fixed top-5 left-5 -translate-x-1/2 z-50 
+    w-[96%] max-w-8xl rounded-full px-6 py-3 
+    flex justify-between items-center
+    bg-[#134451] border border-white/10 shadow-lg
+    transition-all duration-300"
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        {/* Logo */}
+        <motion.a href="#" className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
+            ZK
+          </div>
+          <span className="text-lg font-semibold text-white hidden sm:block">
+            Zeya Karim
+          </span>
+        </motion.a>
+
+        {/* Desktop Nav Links */}
+        <ul className="hidden md:flex items-center gap-2">
+          {navItems.map((item) => (
+            <motion.li key={item.name}>
+              <motion.a
+                href={item.href}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeSection === item.id
+                    ? "bg-teal-500/20 text-teal-400"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                  }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {item.name}
+              </motion.a>
+            </motion.li>
+          ))}
+        </ul>
+
+        {/* Social + Email + Mobile button */}
+        <div className="flex items-center gap-4">
+          {/* Social Icons - Desktop */}
+          <div className="hidden md:flex items-center gap-4 px-3 py-1 rounded-full bg-white/10">
+            {socialLinks.map((social) => (
+              <motion.a
+                key={social.href}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-white transition-all"
+                whileHover={{ y: -3 }}
+                aria-label={social.name}
+              >
+                {social.icon}
+              </motion.a>
+            ))}
+          </div>
+
+          {/* Email */}
           <motion.a
-            href="#"
-            className="flex items-center gap-3 group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            href="mailto:zeyakarim79@gmail.com"
+            className="hidden lg:flex items-center gap-2 text-sm text-white/70 hover:text-white transition-all font-medium"
+            whileHover={{ x: 3 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">ZK</span>
-            </div>
-            <span className="text-xl font-semibold text-[#123A48] hidden sm:block">
-              Zeya Karim
-            </span>
+            <MdEmail size={18} />
+            <span>zeyakarim79@gmail.com</span>
           </motion.a>
 
-          <ul className="hidden md:flex items-center gap-1">
-            {navItems.map((item, index) => (
-              <motion.li
-                key={item.name}
-                initial="hidden"
-                animate="visible"
-                custom={index}
-                variants={navItemVariants}
-              >
-                <motion.a
-                  href={item.href}
-                  className={`relative px-5 py-2.5 rounded-full ${
-                    activeSection === item.id ? "text-[#e7f7ff] bg-[#123A48]" : "text-[#123A48]"
-                  } hover:text-[#e7f7ff] hover:bg-[#123A48] transition-all text-[15px] font-medium`}
-                  onHoverStart={() => setHoveredItem(index)}
-                  onHoverEnd={() => setHoveredItem(null)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {item.name}
-                  {(hoveredItem === index || activeSection === item.id) && (
-                    <motion.div
-                    //   layoutId="underline"
-                      className="absolute bottom-1 left-0 w-full h-0.5 bg-teal-600"
-                    />
-                  )}
-                </motion.a>
-              </motion.li>
-            ))}
-          </ul>
-
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-5">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.href}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#123A48] hover:text-teal-600 transition-all relative group"
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.9 }}
-                  aria-label={social.name}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
-              <motion.a
-                href="mailto:zeyakarim79@gmail.com"
-                className="flex items-center gap-2 text-sm text-[#123A48] hover:text-teal-600 transition-all font-medium group"
-                whileHover={{ x: 3 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <MdEmail size={18} />
-                <span className="hidden lg:inline">zeyakarim79@gmail.com</span>
-              </motion.a>
-            </div>
-            <motion.button
-              className="md:hidden p-2 rounded-lg focus:outline-none relative group"
-              onClick={() => setMobileMenuOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Open menu"
-            >
-              <FiMenu size={24} className="text-gray-800" />
-            </motion.button>
-          </div>
+          {/* Mobile Menu Button */}
+          <motion.button
+            className="md:hidden p-2 text-white"
+            onClick={() => setMobileMenuOpen(true)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Open menu"
+          >
+            <FiMenu size={24} />
+          </motion.button>
         </div>
       </motion.nav>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
+            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-md"
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
+
+            {/* Drawer */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 z-50 w-full max-w-sm h-full bg-white shadow-xl"
+              className="fixed top-0 right-0 z-50 w-full max-w-sm h-full 
+                bg-gradient-to-b from-[#0D2F3F] to-[#1A4D5C] shadow-xl text-white"
             >
               <div className="flex flex-col h-full p-6">
+                {/* Header */}
                 <div className="flex justify-between items-center mb-12">
-                  <motion.a href="#" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center shadow-lg">
-                      <span className="text-white font-bold text-xl">ZK</span>
-                    </div>
-                  </motion.a>
+                  <span className="text-2xl font-bold">Zeya Karim</span>
                   <motion.button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-2 rounded-full hover:bg-gray-100"
-                    whileHover={{ rotate: 90, scale: 1.1 }}
+                    className="p-2 rounded-full text-white hover:bg-white/10"
+                    whileHover={{ rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                     aria-label="Close menu"
                   >
                     <MdClose size={28} />
                   </motion.button>
                 </div>
+
+                {/* Nav Links */}
                 <nav className="flex-1">
-                  <ul className="space-y-6">
-                    {navItems.map((item) => (
+                  <ul className="space-y-4">
+                    {navItems.map((item, index) => (
                       <motion.li
                         key={item.name}
                         initial={{ x: 30, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ type: "spring", stiffness: 100, delay: 0.1 * navItems.indexOf(item) }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 100,
+                          delay: 0.1 * index,
+                        }}
                       >
-                        <motion.a
+                        <a
                           href={item.href}
-                          className={`block text-2xl font-medium py-3 transition-colors ${
-                            activeSection === item.id ? "text-teal-600" : "text-gray-800 hover:text-teal-500"
-                          }`}
+                          className={`block text-xl font-medium py-3 ${activeSection === item.id
+                              ? "text-teal-400"
+                              : "text-white/80 hover:text-white"
+                            }`}
                           onClick={() => setMobileMenuOpen(false)}
-                          whileHover={{ x: 5 }}
-                          whileTap={{ scale: 0.98 }}
                         >
                           {item.name}
-                        </motion.a>
+                        </a>
                       </motion.li>
                     ))}
                   </ul>
                 </nav>
-                <div className="mt-auto pt-6 border-t border-gray-100">
-                  <motion.a
+
+                {/* Footer */}
+                <div className="mt-auto pt-6 border-t border-white/10">
+                  <a
                     href="mailto:zeyakarim79@gmail.com"
-                    className="flex items-center gap-4 text-lg text-gray-800 py-4 hover:text-teal-600 transition-colors"
-                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center gap-3 text-sm text-white/80 py-4 hover:text-white transition-colors"
                   >
-                    <MdEmail size={24} />
+                    <MdEmail size={20} />
                     zeyakarim79@gmail.com
-                  </motion.a>
-                  <div className="flex gap-4 mt-6">
+                  </a>
+                  <div className="flex gap-4 mt-4">
                     {socialLinks.map((social, index) => (
                       <motion.a
                         key={social.href}
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-3 rounded-full bg-gray-100 text-gray-800 hover:bg-teal-600 hover:text-white transition-colors"
+                        className="p-3 rounded-full bg-white/10 text-white/80 hover:bg-teal-600 hover:text-white transition-colors"
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        transition={{ delay: 0.1 * index + 0.4, type: "spring" }}
+                        transition={{
+                          delay: 0.1 * index + 0.4,
+                          type: "spring",
+                        }}
                         whileHover={{ y: -3, scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        aria-label={social.name}
                       >
                         {social.icon}
                       </motion.a>
