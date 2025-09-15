@@ -192,14 +192,14 @@ const Header = () => {
                 transition={{ delay: 1.5 }}
             >
                 <motion.div
-                    className="text-[#0D2F3F] text-sm font-medium mb-2"
+                    className="text-white/80 text-sm font-medium mb-2"
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity }}
                 >
                     Scroll to explore
                 </motion.div>
                 <motion.div
-                    className="w-6 h-10 border-2 border-[#0D2F3F] rounded-full flex justify-center p-1"
+                    className="w-6 h-10 border-2 border-white/80 rounded-full flex justify-center p-1"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2 }}
