@@ -26,7 +26,7 @@ const AboutSection = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
-      className="w-full px-6 mt-10 max-w-[90rem] mx-auto"
+      className="w-full px-6 mt-0 max-w-[90rem] mx-auto"
     >
       <div id="about">
         <AboutMe />

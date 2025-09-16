@@ -56,7 +56,7 @@ const Navbar = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
         className="fixed top-5 left-5 -translate-x-1/2 z-50 
-    w-[96%] max-w-8xl rounded-full px-6 py-3 
+    w-[97%] max-w-8xl rounded-full px-6 py-3 
     flex justify-between items-center
     bg-[#134451] border border-white/10 shadow-lg
     transition-all duration-300"

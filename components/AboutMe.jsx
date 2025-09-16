@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import Image from "next/image";
 import {
   FaCode,
   FaServer,
@@ -54,30 +53,20 @@ const sectionVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", damping: 10, stiffness: 100 },
-  },
-};
-
-const imageVariants = {
-  hidden: { opacity: 0, x: -50, rotate: -5 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    rotate: 0,
-    transition: { type: "spring", stiffness: 100, damping: 15 },
+    transition: { type: "spring", damping: 15, stiffness: 100, duration: 0.8 },
   },
 };
 
 const techStack = [
-  { name: "React", icon: <FaReact className="text-blue-500" /> },
-  { name: "Node.js", icon: <FaNodeJs className="text-green-600" /> },
+  { name: "React", icon: <FaReact className="text-cyan-400" /> },
+  { name: "Node.js", icon: <FaNodeJs className="text-green-400" /> },
+  { name: "PostgreSQL", icon: <FaDatabase className="text-blue-400" /> },
   { name: "MongoDB", icon: <FaDatabase className="text-green-500" /> },
-  { name: "PostgreSQL", icon: <FaDatabase className="text-blue-600" /> },
-  { name: "Express", icon: <FaServer className="text-gray-700 dark:text-gray-300" /> },
-  { name: "Next.js", icon: <FaJsSquare className="text-black dark:text-white" /> },
+  { name: "Express", icon: <FaServer className="text-gray-500 dark:text-gray-300" /> },
+  { name: "Next.js", icon: <FaJsSquare className="text-blue-400 dark:text-gray-100" /> },
 ];
 
-const HighlightedTypewriter = ({ content, speed = 15 }) => {
+const HighlightedTypewriter = ({ content, speed = 10 }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const textRef = useRef(null);
@@ -85,7 +74,7 @@ const HighlightedTypewriter = ({ content, speed = 15 }) => {
 
   // Typewriter effect
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || !content || !content.text) return;
     let currentText = "";
     let i = 0;
     setIsTypingComplete(false);
@@ -104,8 +93,9 @@ const HighlightedTypewriter = ({ content, speed = 15 }) => {
     return () => clearInterval(typingInterval);
   }, [content, speed, isInView]);
 
-  // Highlight logic (fixed duplicates)
+  // Highlight logic
   const parts = useMemo(() => {
+    if (!content || !content.text) return [];
     let currentText = displayedText;
     const result = [];
     const positions = [];
@@ -121,7 +111,6 @@ const HighlightedTypewriter = ({ content, speed = 15 }) => {
       }
     });
 
-    // Deduplicate highlights (avoid duplicate phrases at same position)
     const uniquePositions = positions.filter(
       (pos, index, self) =>
         index === self.findIndex((p) => p.start === pos.start && p.end === pos.end)
@@ -155,37 +144,36 @@ const HighlightedTypewriter = ({ content, speed = 15 }) => {
   return (
     <div
       ref={textRef}
-      className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed font-light"
+      className="text-gray-200 text-lg leading-relaxed font-light tracking-wide"
     >
       {parts.map((part, index) => {
         if (part.type === "highlight") {
           return (
             <span
               key={index}
-              className="relative inline-block font-semibold text-teal-600 dark:text-teal-400 bg-teal-100 dark:bg-teal-900/50 px-1 py-0.5 rounded-md"
+              className="relative inline-block font-semibold text-teal-400 bg-teal-500/10 px-2 py-1 rounded-lg transition-all duration-300 hover:bg-teal-500/20"
             >
               {part.content}
-
-              {/* Floating Icon Above */}
               {part.icon && (
-                <span className="absolute -top-3 left-[96%] -translate-x-1/2 bg-teal-600 text-white text-xs px-2 py-1 rounded-md shadow-md whitespace-nowrap">
+                <motion.span
+                  className="absolute -top-3 left-[95%] -translate-x-1/2 bg-teal-500 text-white text-sm p-2 rounded-full shadow-lg"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 150 }}
+                >
                   {part.icon}
-                </span>
+                </motion.span>
               )}
             </span>
           );
         }
-
-        // normal text
         return <React.Fragment key={index}>{part.content}</React.Fragment>;
       })}
-
-
       {!isTypingComplete && (
         <motion.span
-          className="inline-block w-1 h-6 bg-teal-600 dark:bg-teal-400 ml-1"
+          className="inline-block w-1 h-6 bg-teal-400 ml-1"
           animate={{ opacity: [0, 1, 0] }}
-          transition={{ repeat: Infinity, duration: 1 }}
+          transition={{ repeat: Infinity, duration: 0.7 }}
         />
       )}
     </div>
@@ -194,131 +182,112 @@ const HighlightedTypewriter = ({ content, speed = 15 }) => {
 
 const AboutMe = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [activeTab, setActiveTab] = useState(0);
+  const isInView = useInView(ref, { once: true, amount: 0.4 });
+  const [activePart, setActivePart] = useState(1); // Default to Part 1
+
+  const handlePartClick = (partId) => {
+    setActivePart(partId);
+  };
 
   return (
     <section
       ref={ref}
-      className="relative py-20 px-6 md:px-12 bg-white dark:bg-[#121212] overflow-hidden"
+      className="relative py-24 px-6 md:px-12 bg-gradient-to-br from-gray-950 to-gray-900 overflow-hidden rounded-lg"
       id="about"
     >
       {/* Background shapes */}
       <motion.div
-        className="absolute inset-0 z-0 opacity-10 dark:opacity-5 overflow-hidden"
+        className="absolute inset-0 z-0 opacity-20"
         variants={sectionVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
       >
-        <motion.div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-teal-600 dark:bg-teal-800 blur-3xl opacity-20 animate-pulse-slow" />
-        <motion.div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-blue-600 dark:bg-blue-800 blur-3xl opacity-20 animate-pulse-slow-reverse" />
+        <motion.div
+          className="absolute top-1/6 left-1/6 w-80 h-80 rounded-full bg-teal-500/20 blur-3xl opacity-50 animate-pulse"
+        />
+        <motion.div
+          className="absolute bottom-1/6 right-1/6 w-96 h-96 rounded-full bg-blue-500/20 blur-3xl opacity-50 animate-pulse-slow"
+        />
       </motion.div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.h2
-          className="text-4xl md:text-5xl font-extrabold text-center mb-16 text-gray-900 dark:text-white"
+          className="text-5xl md:text-6xl font-bold text-center mb-16 text-white tracking-tight"
           variants={sectionVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          About <span className="text-teal-600 dark:text-teal-400">Me</span>
+          About <span className="text-teal-400">Me</span>
         </motion.h2>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-          {/* Image Section */}
-          <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="w-full lg:w-2/5 flex justify-center relative"
-          >
-            <div className="relative">
-              <motion.div
-                className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800 relative z-10"
-                whileHover={{ scale: 1.03, rotate: 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <Image
-                  src="/hero-section-image.png"
-                  alt="Profile"
-                  width={400}
-                  height={500}
-                  className="w-full h-[400px] object-cover"
-                  priority
-                />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Text Section */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
+          {/* Text Section with Toggleable Parts */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full lg:w-3/5"
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-[82%]"
           >
-            <div className="mb-6 flex border-b border-gray-200 dark:border-gray-700">
-              {textContent.map((_, index) => (
-                <button
-                  key={index}
-                  className={`px-4 py-2 font-medium relative transition-colors duration-300 ease-in-out ${activeTab === index
-                      ? "text-teal-600 dark:text-teal-400"
-                      : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                    }`}
-                  onClick={() => setActiveTab(index)}
-                >
-                  {activeTab === index && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 w-full h-1 bg-teal-600 dark:bg-teal-400"
-                      layoutId="underline"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  Part {index + 1}
-                </button>
-              ))}
-            </div>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-                className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700"
+            <div className="mb-4">
+              <button
+                onClick={() => handlePartClick(1)}
+                className={`mr-4 px-4 py-2 rounded-2xl ${
+                  activePart === 1
+                    ? "bg-teal-500 text-white"
+                    : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                }`}
               >
-                <HighlightedTypewriter content={textContent[activeTab]} speed={15} />
+                Part 1
+              </button>
+              <button
+                onClick={() => handlePartClick(2)}
+                className={`px-4 py-2 rounded-2xl ${
+                  activePart === 2
+                    ? "bg-teal-500 text-white"
+                    : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                }`}
+              >
+                Part 2
+              </button>
+            </div>
+            <motion.div
+              className="bg-gray-800/50 backdrop-blur-lg p-8 rounded-2xl border border-gray-700/50 shadow-2xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <HighlightedTypewriter
+                content={textContent.find((part) => part.id === activePart)}
+                speed={10}
+              />
+            </motion.div>
+          </motion.div>
 
-                {activeTab === 0 && (
-                  <motion.div
-                    className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                      visible: { transition: { staggerChildren: 0.1 } },
-                    }}
-                  >
-                    {techStack?.map((tech, i) => (
-                      <motion.div
-                        key={tech.name}
-                        className="bg-teal-50 dark:bg-teal-950 border border-teal-200 dark:border-teal-900 rounded-lg px-4 py-2.5 text-sm font-medium text-teal-800 dark:text-teal-200 flex items-center gap-2 hover:bg-teal-100/80 dark:hover:bg-teal-900/80 transition-all"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.8 + i * 0.1, duration: 0.3 }}
-                        whileHover={{
-                          scale: 1.05,
-                          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-                        }}
-                      >
-                        <span className="text-lg">{tech.icon}</span>
-                        {tech.name}
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                )}
+          <motion.div
+            className="mt-10 grid grid-cols-2 sm:grid-cols-2 gap-4"
+            initial="hidden"
+            animate="visible"
+            variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+          >
+            {techStack.map((tech, i) => (
+              <motion.div
+                key={tech.name}
+                className="relative p-1 px-2 rounded-lg overflow-hidden group"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.9 + i * 0.1, duration: 0.4 }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+                }}
+              >
+                <div className="absolute inset-0 bg-gray-800/60 backdrop-blur-lg rounded-lg border border-gray-700/50 transition-opacity duration-300 group-hover:bg-gray-700/80" />
+                <div className="relative z-10 px-4 py-2 text-sm font-medium flex items-center gap-2 text-gray-200 group-hover:text-teal-400 transition-colors duration-300">
+                  <span className="text-lg">{tech.icon}</span>
+                  {tech.name}
+                </div>
               </motion.div>
-            </AnimatePresence>
+            ))}
           </motion.div>
         </div>
       </div>

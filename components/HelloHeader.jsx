@@ -48,7 +48,7 @@ const HeroHeader = () => {
       ref={ref}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className="relative w-full min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden bg-gradient-to-br from-[#0D2F3F] to-[#1A4D5C] text-white"
+      className="relative w-full min-h-screen flex items-center justify-center px-6 py-20 overflow-hidden bg-gradient-to-br from-[#0D2F3F] to-[#1A4D5C] text-white rounded-lg"
     >
       {/* Refined and simplified background elements */}
       <div className="absolute inset-0 z-0">
