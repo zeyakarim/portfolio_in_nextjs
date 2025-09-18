@@ -192,7 +192,7 @@ const AboutMe = () => {
   return (
     <section
       ref={ref}
-      className="relative py-24 px-6 md:px-12 bg-gradient-to-br from-gray-950 to-gray-900 overflow-hidden rounded-lg"
+      className="relative py-24 px-6 md:px-12 bg-gradient-to-br from-gray-950 to-gray-900 overflow-hidden"
       id="about"
     >
       {/* Background shapes */}

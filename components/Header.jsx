@@ -67,7 +67,7 @@ const Header = () => {
             {/* Content Section */}
             <motion.section 
                 // style={{ y: springY, opacity }}
-                className="w-full flex-1 flex flex-col items-center text-center px-6 max-w-[92rem] mx-auto z-10 pt-[calc(4rem+env(safe-area-inset-top))] md:pt-[calc(6rem+env(safe-area-inset-top))] md:justify-center md:items-start md:text-left md:px-8 rounded-lg"
+                className="w-full flex-1 flex flex-col items-center text-center max-w-[93rem] mx-auto z-10 pt-[calc(4rem+env(safe-area-inset-top))] md:pt-[calc(6rem+env(safe-area-inset-top))] md:justify-center md:items-start md:text-left md:px-8 lg:px-6 rounded-lg"
             >
                 <HelloHeader />
             </motion.section>
