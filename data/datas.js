@@ -59,6 +59,7 @@ export const appImages = [
 export const experiences = [
     {
         company: "GWARM Techonologies PVT. LTD.",
+        logo: "/gwarm-logo.png",
         duration: "APR 2025 - PRESENT",
         role: "Senior Software Engineer",
         link: 'https://www.gwarm.net/',
@@ -69,10 +70,12 @@ export const experiences = [
             'Built with Next.js, Node.js, and PostgreSQL using TypeScript for full-stack efficiency, type safety, and performance.',
             'Led the development of a Last Mile delivery system tailored for clients with their own warehouses, enabling seamless order, inventory, and staff management.'
         ],
+        technologyUsed: ["Next.js", "React.js", "Node.js", "Express", "PostGre DB", "Sequelize ORM", "TypeScript", "Socket.io"],
         color: "#EF4444",
     },
     {
         company: "DEPO24",
+        logo: "/depo24.svg",
         duration: "SEP 2022 - FEB 2025",
         role: "Full-Stack Developer",
         link: 'https://depo24.in/',
@@ -82,10 +85,12 @@ export const experiences = [
             'Over 2.5 years of hands-on experience building high-performance e-commerce platforms, focusing on seamless user experiences and optimized backend solutions.',
             'Proficient in HTML5, CSS3, MVC architecture, and full-stack MERN development, ensuring clean, maintainable, and efficient code for web applications.'
         ],
+        technologyUsed: ["Next.js", "React.js", "Node.js", "Express", "PostGre DB", "MongoDB", "JavaScript", "Socket.io", "Mongoose"],
         color: "#0d9488",
     },
     {
         company: " Coding Ninjas",
+        logo: "/coding-ninjas.svg",
         duration: "FEB 2022 - SEP 2022",
         role: "Teaching Assistant",
         link: 'https://www.codingninjas.com/',
@@ -96,5 +101,6 @@ export const experiences = [
             "Provided guidance on project development, helping students structure and optimize their software applications."
         ],
         color: "#EF4444",
+        technologyUsed: ["React.js", "Node.js", "Express", "MongoDB", "JavaScript", "Mongoose"],
     }
 ];
