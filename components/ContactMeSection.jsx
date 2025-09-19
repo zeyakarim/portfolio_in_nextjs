@@ -51,7 +51,7 @@ const ContactMeSection = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="w-full px-4 sm:px-6 py-20 bg-gradient-to-br from-gray-950 to-black text-white relative overflow-hidden"
+            className="w-full px-4 sm:px-6 py-16 md:py-20 bg-gradient-to-br from-gray-950 to-black text-white relative overflow-hidden" // Reduced vertical padding
             id="contact"
         >
             {/* Background elements for depth - Consistent with Skills.jsx */}
@@ -62,8 +62,8 @@ const ContactMeSection = () => {
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header Section */}
                 <motion.div
-                    className="flex flex-col items-center mb-16 text-center"
-                    variants={sectionVariants} // Use main section variants for header children
+                    className="flex flex-col items-center mb-12 md:mb-16 text-center" // Adjusted margin-bottom
+                    variants={sectionVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
@@ -71,10 +71,10 @@ const ContactMeSection = () => {
                     <motion.p variants={itemFadeUp} className="text-sm font-semibold text-teal-400 uppercase tracking-widest mb-2">
                         Get In Touch
                     </motion.p>
-                    <motion.h2 variants={itemFadeUp} className="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+                    <motion.h2 variants={itemFadeUp} className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight"> {/* Reduced text size */}
                         Connect with <span className="gradient-text">Me</span>
                     </motion.h2>
-                    <motion.p variants={itemFadeUp} className="text-lg text-gray-300 max-w-3xl mx-auto">
+                    <motion.p variants={itemFadeUp} className="text-base text-gray-300 max-w-3xl mx-auto"> {/* Reduced text size */}
                         Whether you have a project in mind, want to discuss opportunities, or just want to say hello - I&apos;d love to connect with you!
                     </motion.p>
                     <motion.div
@@ -87,48 +87,48 @@ const ContactMeSection = () => {
                 </motion.div>
 
                 {/* Content Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center"> {/* Adjusted gap */}
                     {/* Left Column - Direct CTA */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="space-y-8 lg:text-left text-center"
+                        className="space-y-6 lg:text-left text-center" // Adjusted space-y
                     >
-                        <h3 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight"> {/* Reduced text size */}
                             Let&apos;s build something <span className="gradient-text">extraordinary</span> together.
                         </h3>
-                        <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg lg:mx-0 mx-auto">
+                        <p className="text-base md:text-lg text-gray-300 leading-relaxed max-w-lg lg:mx-0 mx-auto"> {/* Reduced text size */}
                             I'm always open to new challenges and collaborations. Reach out and let's turn ideas into reality.
                         </p>
-                        <div className="mt-10 flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+                        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"> {/* Adjusted margin-top and gap */}
                             <motion.a
                                 whileHover={{
                                     scale: 1.05,
-                                    boxShadow: "0 10px 20px -5px rgba(37, 211, 102, 0.4)", // WhatsApp green
+                                    boxShadow: "0 10px 20px -5px rgba(37, 211, 102, 0.4)",
                                     backgroundColor: "#128C7E"
                                 }}
                                 whileTap={{ scale: 0.98 }}
                                 href="https://wa.me/918570877219?text=Hello%20Zeya!%20I%20came%20across%20your%20portfolio"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-8 py-4 bg-[#25D366] text-white rounded-xl font-medium flex items-center justify-center gap-3 transition-all duration-300 text-lg shadow-lg hover:shadow-xl"
+                                className="px-6 py-3 bg-[#25D366] text-white rounded-xl font-medium flex items-center justify-center gap-2 transition-all duration-300 text-base shadow-lg hover:shadow-xl" // Reduced padding, text size, and gap
                             >
-                                <FaWhatsapp size={22} />
+                                <FaWhatsapp size={20} /> {/* Slightly reduced icon size */}
                                 <span>Chat on WhatsApp</span>
                             </motion.a>
                             <motion.a
                                 whileHover={{
                                     scale: 1.05,
-                                    boxShadow: "0 10px 20px -5px rgba(6, 182, 212, 0.4)", // Teal email
+                                    boxShadow: "0 10px 20px -5px rgba(6, 182, 212, 0.4)",
                                     backgroundColor: "#06B6D4"
                                 }}
                                 whileTap={{ scale: 0.98 }}
                                 href="mailto:zeyakarim79@gmail.com"
-                                className="px-8 py-4 bg-teal-600 text-white rounded-xl font-medium flex items-center justify-center gap-3 transition-all duration-300 text-lg shadow-lg hover:shadow-xl"
+                                className="px-6 py-3 bg-teal-600 text-white rounded-xl font-medium flex items-center justify-center gap-2 transition-all duration-300 text-base shadow-lg hover:shadow-xl" // Reduced padding, text size, and gap
                             >
-                                <MdEmail size={22} />
+                                <MdEmail size={20} /> {/* Slightly reduced icon size */}
                                 <span>Send Email</span>
                             </motion.a>
                         </div>
@@ -140,24 +140,24 @@ const ContactMeSection = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.4 }}
-                        className="space-y-8 bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800 backdrop-blur-sm bg-opacity-70"
+                        className="space-y-6 bg-gray-900 p-6 rounded-2xl shadow-2xl border border-gray-800 backdrop-blur-sm bg-opacity-70" // Reduced space-y and padding
                     >
-                        <h6 className='text-2xl font-semibold text-white mb-6 border-b border-gray-700 pb-4'>Contact Information</h6>
-                        <div className="space-y-6">
+                        <h6 className='text-xl font-semibold text-white mb-5 border-b border-gray-700 pb-3'>Contact Information</h6> {/* Reduced text size and padding-bottom */}
+                        <div className="space-y-4"> {/* Adjusted space-y */}
                             <motion.div
                                 variants={contactCardVariants}
                                 whileInView="visible"
                                 initial="hidden"
                                 viewport={{ once: true, amount: 0.5 }}
                                 whileHover="hover"
-                                className='flex items-start gap-5 p-4 rounded-xl transition-all duration-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 cursor-pointer shadow-md'
+                                className='flex items-start gap-4 p-3 rounded-xl transition-all duration-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 cursor-pointer shadow-md' // Reduced gap and padding
                             >
-                                <div className="mt-1 p-2 rounded-full bg-teal-600/20 text-teal-400 border border-teal-500/30 flex-shrink-0">
-                                    <FaLocationDot size={20} />
+                                <div className="mt-0.5 p-1.5 rounded-full bg-teal-600/20 text-teal-400 border border-teal-500/30 flex-shrink-0"> {/* Adjusted padding and margin-top */}
+                                    <FaLocationDot size={18} /> {/* Slightly reduced icon size */}
                                 </div>
                                 <div>
-                                    <h4 className="font-medium text-white text-lg">Location</h4>
-                                    <p className='text-gray-300 mt-1'>Jaipur, Rajasthan, India</p>
+                                    <h4 className="font-medium text-white text-base">Location</h4> {/* Reduced text size */}
+                                    <p className='text-gray-300 mt-0.5 text-sm'>Jaipur, Rajasthan, India</p> {/* Reduced margin-top and text size */}
                                 </div>
                             </motion.div>
                             <motion.div
@@ -166,14 +166,14 @@ const ContactMeSection = () => {
                                 initial="hidden"
                                 viewport={{ once: true, amount: 0.5 }}
                                 whileHover="hover"
-                                className='flex items-start gap-5 p-4 rounded-xl transition-all duration-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 cursor-pointer shadow-md'
+                                className='flex items-start gap-4 p-3 rounded-xl transition-all duration-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 cursor-pointer shadow-md' // Reduced gap and padding
                             >
-                                <div className="mt-1 p-2 rounded-full bg-teal-600/20 text-teal-400 border border-teal-500/30 flex-shrink-0">
-                                    <MdEmail size={20} />
+                                <div className="mt-0.5 p-1.5 rounded-full bg-teal-600/20 text-teal-400 border border-teal-500/30 flex-shrink-0"> {/* Adjusted padding and margin-top */}
+                                    <MdEmail size={18} /> {/* Slightly reduced icon size */}
                                 </div>
                                 <div>
-                                    <h4 className="font-medium text-white text-lg">Email</h4>
-                                    <a href="mailto:zeyakarim79@gmail.com" className='text-gray-300 hover:text-teal-400 transition-colors mt-1 block'>
+                                    <h4 className="font-medium text-white text-base">Email</h4> {/* Reduced text size */}
+                                    <a href="mailto:zeyakarim79@gmail.com" className='text-gray-300 hover:text-teal-400 transition-colors mt-0.5 block text-sm'> {/* Reduced margin-top and text size */}
                                         zeyakarim79@gmail.com
                                     </a>
                                 </div>
@@ -184,16 +184,16 @@ const ContactMeSection = () => {
                                 initial="hidden"
                                 viewport={{ once: true, amount: 0.5 }}
                                 whileHover="hover"
-                                className='flex items-start gap-5 p-4 rounded-xl transition-all duration-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 cursor-pointer shadow-md'
+                                className='flex items-start gap-4 p-3 rounded-xl transition-all duration-300 bg-gray-800 hover:bg-gray-700 border border-gray-700 cursor-pointer shadow-md' // Reduced gap and padding
                             >
-                                <div className="mt-1 p-2 rounded-full bg-teal-600/20 text-teal-400 border border-teal-500/30 flex-shrink-0">
-                                    <FaPhoneVolume size={20} />
+                                <div className="mt-0.5 p-1.5 rounded-full bg-teal-600/20 text-teal-400 border border-teal-500/30 flex-shrink-0"> {/* Adjusted padding and margin-top */}
+                                    <FaPhoneVolume size={18} /> {/* Slightly reduced icon size */}
                                 </div>
                                 <div>
-                                    <h4 className="font-medium text-white text-lg">Phone</h4>
+                                    <h4 className="font-medium text-white text-base">Phone</h4> {/* Reduced text size */}
                                     <a
                                         href="tel:+918570877219"
-                                        className='text-gray-300 hover:text-teal-400 transition-colors mt-1 block'
+                                        className='text-gray-300 hover:text-teal-400 transition-colors mt-0.5 block text-sm' // Reduced margin-top and text size
                                     >
                                         +91 8570877219
                                     </a>
@@ -201,10 +201,10 @@ const ContactMeSection = () => {
                             </motion.div>
                         </div>
 
-                        <div className="pt-6 mt-6 border-t border-gray-700">
-                            <h6 className="text-xl font-medium text-white mb-5">Connect With Me</h6>
+                        <div className="pt-5 mt-5 border-t border-gray-700"> {/* Adjusted padding-top and margin-top */}
+                            <h6 className="text-lg font-medium text-white mb-4">Connect With Me</h6> {/* Reduced text size and margin-bottom */}
                             <motion.div
-                                className="flex gap-6"
+                                className="flex gap-5" // Adjusted gap
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, amount: 0.5 }}
@@ -216,10 +216,10 @@ const ContactMeSection = () => {
                                     href="https://github.com/zeyakarim"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-400 hover:text-white p-3 rounded-full bg-gray-800 hover:bg-teal-600 transition-all duration-300 shadow-md"
+                                    className="text-gray-400 hover:text-white p-2.5 rounded-full bg-gray-800 hover:bg-teal-600 transition-all duration-300 shadow-md" // Reduced padding
                                     aria-label="GitHub"
                                 >
-                                    <FaGithub size={24} />
+                                    <FaGithub size={22} /> {/* Slightly reduced icon size */}
                                 </motion.a>
                                 <motion.a
                                     variants={socialIconVariants}
@@ -227,19 +227,19 @@ const ContactMeSection = () => {
                                     href="https://www.linkedin.com/in/zeya-karim-a1362a203/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-400 hover:text-white p-3 rounded-full bg-gray-800 hover:bg-[#0A66C2] transition-all duration-300 shadow-md"
+                                    className="text-gray-400 hover:text-white p-2.5 rounded-full bg-gray-800 hover:bg-[#0A66C2] transition-all duration-300 shadow-md" // Reduced padding
                                     aria-label="LinkedIn"
                                 >
-                                    <FaLinkedin size={24} />
+                                    <FaLinkedin size={22} /> {/* Slightly reduced icon size */}
                                 </motion.a>
                                 <motion.a
                                     variants={socialIconVariants}
                                     whileHover="hover"
                                     href="#"
-                                    className="text-gray-400 hover:text-white p-3 rounded-full bg-gray-800 hover:bg-[#1DA1F2] transition-all duration-300 shadow-md"
+                                    className="text-gray-400 hover:text-white p-2.5 rounded-full bg-gray-800 hover:bg-[#1DA1F2] transition-all duration-300 shadow-md" // Reduced padding
                                     aria-label="Twitter"
                                 >
-                                    <FaTwitter size={24} />
+                                    <FaTwitter size={22} /> {/* Slightly reduced icon size */}
                                 </motion.a>
                             </motion.div>
                         </div>
