@@ -62,29 +62,32 @@ const ProjectSection = () => {
       whileInView="visible"
       viewport={{ once: true, margin: "0px 0px -100px 0px" }}
       variants={sectionVariants}
-      className="w-full px-4 sm:px-6 py-20 lg:py-28 max-w-[90rem] mx-auto bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800"
+      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white relative overflow-hidden w-[96.5%]"
       id="projects"
     >
-      <div className="space-y-16">
+      <div className="absolute inset-0 z-0 opacity-15" style={{ backgroundImage: "url('/noise.png')", backgroundSize: '400px' }}></div>
+      <div className="absolute top-10 left-10 w-64 h-64 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-64 h-64 bg-fuchsia-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
+
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <motion.div 
           variants={itemVariants}
-          className="text-center"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#0D2F3F] dark:text-white">
-            Project<span className="text-teal-600 dark:text-teal-400">s</span>
-          </h2>
-          <motion.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: "100px" }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="mx-auto mt-4 h-1 bg-teal-600 dark:bg-teal-400 rounded-full"
-          />
+          <motion.p variants={itemVariants} className="text-sm font-semibold text-teal-400 uppercase tracking-widest mb-2">
+            My Creations
+          </motion.p>
+          <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-600">
+            Featured <span className="gradient-text">Projects</span>
+          </motion.h2>
+          <motion.p variants={itemVariants} className="text-base text-gray-300 max-w-3xl mx-auto">
+            Discover the innovative projects I've built, showcasing my skills across web and mobile development.
+          </motion.p>
         </motion.div>
 
         <motion.div 
           variants={sectionVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[90rem] mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {projects.map((project, index) => (
             <motion.div
@@ -101,7 +104,9 @@ const ProjectSection = () => {
                 githubLink={project.githubLink}
                 liveLink={project.liveLink}
                 tags={project.tags}
+                className="relative bg-gray-900/80 backdrop-blur-md p-6 rounded-xl border border-teal-500/20 cursor-pointer overflow-hidden"
               />
+              <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 opacity-0 hover:opacity-100 transition-opacity duration-500" />
             </motion.div>
           ))}
         </motion.div>
