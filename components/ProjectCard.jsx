@@ -176,7 +176,7 @@ const ProjectCard = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 opacity-0 transition-opacity duration-500" />
         
         {/* Image Container */}
         <div 
