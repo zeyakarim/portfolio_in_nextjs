@@ -6,15 +6,6 @@ import { FaExternalLinkAlt, FaCode, FaTwitter, FaTimes, FaChevronLeft, FaChevron
 import { FiFigma } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
 
-const TAG_COLORS = [
-  'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
-  'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200',
-  'bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-200',
-  'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200',
-  'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
-];
-
 const ProjectCard = ({ 
   images, 
   title = "Project Title",
@@ -22,7 +13,8 @@ const ProjectCard = ({
   tags = ["Technology"],
   githubLink,
   liveLink,
-  figmaLink
+  figmaLink,
+  className = ""
 }) => {
   const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
   const [[popupIndex, popupDirection], setPopupIndex] = useState([0, 0]);
@@ -123,19 +115,16 @@ const ProjectCard = ({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [showPopup, popupIndex]);
 
-  // // Disable body scroll when popup is open
-  // useEffect(() => {
-  //   if (showPopup) {
-  //     document.body.style.overflow = 'hidden';
-  //     document.documentElement.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'auto';
-  //     document.documentElement.style.overflow = 'auto';
-  //   }
-  // }, [showPopup]);
-
   const getTagColor = (index) => {
-    return TAG_COLORS[index % TAG_COLORS.length];
+    const colors = [
+      'bg-teal-500/20 text-teal-200',
+      'bg-cyan-500/20 text-cyan-200',
+      'bg-teal-600/20 text-teal-300',
+      'bg-cyan-600/20 text-cyan-300',
+      'bg-teal-700/20 text-teal-400',
+      'bg-cyan-700/20 text-cyan-400',
+    ];
+    return colors[index % colors.length];
   };
 
   const handleNext = () => {
@@ -179,17 +168,19 @@ const ProjectCard = ({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true, amount: 0.2 }}
-        className="relative w-full max-w-[24rem] bg-white dark:bg-gray-800 rounded-2xl overflow-hidden h-full flex flex-col group"
+        className={`relative w-full max-w-[24rem] bg-gray-900/80 backdrop-blur-md rounded-xl overflow-hidden h-full flex flex-col ${className}`}
         style={{ 
-          boxShadow: "0 10px 30px -10px rgba(0, 0, 0, 0.2)",
-          border: "1px solid rgba(255, 146, 62, 0.15)"
+          border: "1px solid rgba(6, 182, 212, 0.2)",
+          boxShadow: "0 10px 30px -10px rgba(0, 0, 0, 0.3)"
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+        
         {/* Image Container */}
         <div 
-          className="relative h-72 w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden cursor-zoom-in"
+          className="relative h-72 w-full bg-gray-800/50 overflow-hidden cursor-zoom-in"
           onClick={() => openImagePopup(currentIndex)}
         >
           <AnimatePresence initial={false} custom={direction}>
@@ -205,8 +196,14 @@ const ProjectCard = ({
               <Image
                 src={images[currentIndex].src}
                 alt={images[currentIndex].alt || title}
-                fill
-                className="object-cover"
+                width={images[currentIndex].width || 384}
+                height={images[currentIndex].height || 288}
+                className={`object-cover ${images[currentIndex].rotation ? `rotate-${images[currentIndex].rotation}` : ''}`}
+                style={{
+                  transformOrigin: 'center',
+                  marginLeft: images[currentIndex].offsetX ? `${images[currentIndex].offsetX}px` : 0,
+                  marginTop: images[currentIndex].offsetY ? `${images[currentIndex].offsetY}px` : 0
+                }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority={currentIndex === 0}
               />
@@ -221,7 +218,7 @@ const ProjectCard = ({
                   e.stopPropagation();
                   handlePrev();
                 }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm hover:scale-110"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-teal-500/30 hover:bg-teal-500/50 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm hover:scale-110"
                 aria-label="Previous image"
               >
                 <FaChevronLeft size={16} />
@@ -232,7 +229,7 @@ const ProjectCard = ({
                   e.stopPropagation();
                   handleNext();
                 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm hover:scale-110"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-teal-500/30 hover:bg-teal-500/50 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm hover:scale-110"
                 aria-label="Next image"
               >
                 <FaChevronRight size={16} />
@@ -252,8 +249,8 @@ const ProjectCard = ({
                   }}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === currentIndex 
-                      ? 'bg-white w-6 scale-110' 
-                      : 'bg-white/50 hover:bg-white/70'
+                      ? 'bg-teal-400 w-6 scale-110' 
+                      : 'bg-teal-200/50 hover:bg-teal-200/70'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -262,7 +259,7 @@ const ProjectCard = ({
           )}
 
           {/* Zoom hint */}
-          <div className="absolute top-3 right-3 bg-black/50 text-white text-xs px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 backdrop-blur-sm flex items-center gap-1">
+          <div className="absolute top-3 right-3 bg-teal-500/30 text-white text-xs px-2.5 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 backdrop-blur-sm flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -274,9 +271,9 @@ const ProjectCard = ({
         </div>
 
         {/* Project Content */}
-        <div className="p-6 flex flex-col flex-1">
+        <div className="p-6 flex flex-col flex-1 relative z-10">
           <div className="flex-grow">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#FF923E] transition-colors duration-300">
+            <h2 className="text-2xl font-bold text-teal-400 mb-3 group-hover:text-cyan-400 transition-colors duration-300">
               {title}
             </h2>
             
@@ -294,13 +291,13 @@ const ProjectCard = ({
               ))}
             </div>
 
-            <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 leading-relaxed">
+            <p className="text-gray-300 text-sm mb-6 leading-relaxed">
               {subtitle}
             </p>
           </div>
 
           {/* Button Group */}
-          <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+          <div className="mt-auto pt-4 border-t border-teal-500/20">
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 {githubLink && (
@@ -310,7 +307,7 @@ const ProjectCard = ({
                     href={githubLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-700 dark:text-gray-300 hover:text-[#FF923E] dark:hover:text-[#FF923E] transition-colors p-2 rounded-lg"
+                    className="text-teal-200 hover:text-teal-400 transition-colors p-2 rounded-lg"
                     aria-label="GitHub repository"
                   >
                     <FaGithub size={18} />
@@ -323,7 +320,7 @@ const ProjectCard = ({
                     href={figmaLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-700 dark:text-gray-300 hover:text-[#FF923E] dark:hover:text-[#FF923E] transition-colors p-2 rounded-lg"
+                    className="text-teal-200 hover:text-teal-400 transition-colors p-2 rounded-lg"
                     aria-label="Figma design"
                   >
                     <FiFigma size={18} />
@@ -339,7 +336,7 @@ const ProjectCard = ({
                     href={liveLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-[#FF923E] to-[#FF7B3A] hover:from-[#FF7B3A] hover:to-[#FF923E] text-white px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
+                    className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
                   >
                     <FaExternalLinkAlt size={14} />
                     Live Demo
@@ -348,7 +345,7 @@ const ProjectCard = ({
                   <motion.button
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-[#FF923E] to-[#FF7B3A] hover:from-[#FF7B3A] hover:to-[#FF923E] text-white px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
+                    className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white px-5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
                   >
                     <FaTwitter size={14} />
                     Follow
@@ -368,11 +365,17 @@ const ProjectCard = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/70 backdrop-blur-lg z-50 flex items-center justify-center p-4"
           >
-            <div 
+            <motion.div
               ref={popupRef}
-              className="relative w-full h-full max-w-7xl max-h-screen flex flex-col"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className="bg-gray-900/80 backdrop-blur-md rounded-2xl shadow-2xl max-w-2xl w-full p-8 border border-teal-500/20 relative overflow-hidden"
+              style={{ maxHeight: "80vh", overflowY: "auto", marginTop: "70px" }}
+              onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
               <motion.button
@@ -380,12 +383,12 @@ const ProjectCard = ({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 onClick={() => setShowPopup(false)}
-                className="absolute top-6 right-6 text-white hover:text-[#FF923E] transition-colors z-50 p-3 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-sm"
+                className="absolute top-4 right-4 p-2 rounded-full bg-teal-500/20 hover:bg-teal-500/30 text-teal-200 hover:text-white transition-colors z-50"
                 aria-label="Close image viewer"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <FaTimes size={24} />
+                <FaTimes size={20} />
               </motion.button>
 
               {/* Main image container */}
@@ -397,26 +400,26 @@ const ProjectCard = ({
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.3 }}
-                      onClick={handlePopupPrev}
-                      className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 text-white transition-all duration-300 backdrop-blur-sm"
+                      onClick={(e) => { e.stopPropagation(); handlePopupPrev(); }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-teal-500/30 hover:bg-teal-500/50 text-white transition-all duration-300 backdrop-blur-sm"
                       aria-label="Previous image"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                     >
-                      <FaChevronLeft size={24} />
+                      <FaChevronLeft size={20} />
                     </motion.button>
                     
                     <motion.button
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.3 }}
-                      onClick={handlePopupNext}
-                      className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 text-white transition-all duration-300 backdrop-blur-sm"
+                      onClick={(e) => { e.stopPropagation(); handlePopupNext(); }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-teal-500/30 hover:bg-teal-500/50 text-white transition-all duration-300 backdrop-blur-sm"
                       aria-label="Next image"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                     >
-                      <FaChevronRight size={24} />
+                      <FaChevronRight size={20} />
                     </motion.button>
                   </>
                 )}
@@ -432,12 +435,18 @@ const ProjectCard = ({
                     exit="exit"
                     className="absolute inset-0 flex items-center justify-center p-4"
                   >
-                    <div className="relative w-full h-full max-w-[90vw] max-h-[90vh]">
+                    <div className="relative w-full h-full max-w-[90vw] max-h-[70vh]">
                       <Image
                         src={images[popupIndex].src}
                         alt={images[popupIndex].alt || title}
-                        fill
-                        className="object-contain"
+                        width={images[popupIndex].width || 800}
+                        height={images[popupIndex].height || 600}
+                        className={`object-contain ${images[popupIndex].rotation ? `rotate-${images[popupIndex].rotation}` : ''}`}
+                        style={{
+                          transformOrigin: 'center',
+                          marginLeft: images[popupIndex].offsetX ? `${images[popupIndex].offsetX}px` : 0,
+                          marginTop: images[popupIndex].offsetY ? `${images[popupIndex].offsetY}px` : 0
+                        }}
                         priority
                         quality={100}
                       />
@@ -454,14 +463,14 @@ const ProjectCard = ({
                   transition={{ delay: 0.4 }}
                   className="absolute bottom-6 left-0 right-0 flex justify-center z-20"
                 >
-                  <div className="text-white text-lg font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm flex items-center gap-2">
-                    <span className="text-[#FF923E] font-bold">{popupIndex + 1}</span>
-                    <span className="text-gray-300">/</span>
+                  <div className="text-teal-200 text-lg font-medium bg-teal-500/20 px-4 py-2 rounded-full backdrop-blur-sm flex items-center gap-2">
+                    <span className="text-teal-400 font-bold">{popupIndex + 1}</span>
+                    <span>/</span>
                     <span>{images.length}</span>
                   </div>
                 </motion.div>
               )}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
