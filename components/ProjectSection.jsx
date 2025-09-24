@@ -106,6 +106,7 @@ const ProjectSection = () => {
                 tags={project.tags}
                 className="relative bg-gray-900/80 backdrop-blur-md p-6 rounded-xl border border-teal-500/20 cursor-pointer overflow-hidden"
               />
+
 {/*               <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 opacity-0 hover:opacity-100 transition-opacity duration-500" /> */}
             </motion.div>
           ))}

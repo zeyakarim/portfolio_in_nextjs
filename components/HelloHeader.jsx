@@ -155,7 +155,7 @@ const HeroHeader = () => {
           <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mt-8">
             <motion.a
               className="px-8 py-4 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-full font-semibold shadow-xl relative overflow-hidden group transition-transform duration-300"
-              href="/zeya-karim-resume.pdf"
+              href="/Zeya-Karim-Resume.pdf"
               whileHover={{ y: -5, scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               target="_blank"
