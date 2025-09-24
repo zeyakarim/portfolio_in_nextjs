@@ -164,7 +164,6 @@ const HeroHeader = () => {
               <div className="flex items-center gap-2">
                 Download CV <FaExternalLinkAlt size={14} />
               </div>
-              {/* Subtle shine effect on hover */}
               <motion.div
                 className="absolute inset-0 bg-white/30 -translate-x-[110%] rotate-12 group-hover:translate-x-[110%] transition-transform duration-700"
               />
